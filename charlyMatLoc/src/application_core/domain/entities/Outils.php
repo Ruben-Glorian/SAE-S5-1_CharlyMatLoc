@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Domain\Entity;
+namespace charlyMatLoc\src\application_core\domain\entities;
 
 class Outil
 {
@@ -10,8 +10,6 @@ class Outil
     private ?string $description;
     private float $tarif;
     private string $categorie;
-    private ?string $imageUrl;
-    private int $quantite;
 
     /**
      * Constructeur
@@ -22,8 +20,6 @@ class Outil
         ?string $description,
         float   $tarif,
         string  $categorie,
-        ?string $imageUrl = null,
-        int     $quantite = 1
     )
     {
         $this->id = $id;
@@ -31,8 +27,6 @@ class Outil
         $this->description = $description;
         $this->tarif = $tarif;
         $this->categorie = $categorie;
-        $this->imageUrl = $imageUrl;
-        $this->quantite = $quantite;
     }
 
     // --- Getters ---
@@ -62,18 +56,6 @@ class Outil
         return $this->categorie;
     }
 
-    public function getImageUrl(): ?string
-    {
-        return $this->imageUrl;
-    }
-
-    public function getQuantite(): int
-    {
-        return $this->quantite;
-    }
-
-    // --- Setters ---
-
     public function setNom(string $nom): void
     {
         $this->nom = $nom;
@@ -94,16 +76,6 @@ class Outil
         $this->categorie = $categorie;
     }
 
-    public function setImageUrl(?string $imageUrl): void
-    {
-        $this->imageUrl = $imageUrl;
-    }
-
-    public function setQuantite(int $quantite): void
-    {
-        $this->quantite = $quantite;
-    }
-
     /**
      * Méthode utilitaire : convertir en tableau (utile pour les réponses JSON)
      */
@@ -115,8 +87,6 @@ class Outil
             'description' => $this->description,
             'tarif' => $this->tarif,
             'categorie' => $this->categorie,
-            'imageUrl' => $this->imageUrl,
-            'quantite' => $this->quantite
         ];
     }
 }
