@@ -17,11 +17,11 @@
   },
   "autoload": {
     "psr-4" : { 
-      "lachaudiere\\": "./"
+      "charlyMatLoc\\": "./"
     },
   "autoload-dev": {
         "psr-4": {
-            "lachaudiere\\tests\\": "tests/"
+            "charlyMatLoc\\tests\\": "tests/"
         }
     }
   }
