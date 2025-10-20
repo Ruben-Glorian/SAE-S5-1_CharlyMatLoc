@@ -43,7 +43,9 @@ class Panier
     {
         return [
             'id' => $this->id,
-            'nom' => $this->nom
+            'outil_id' => $this->outil_id,
+            'date_location' => $this->date_location,
+            'date_ajout' => $this->date_ajout
         ];
     }
 }
