@@ -1,25 +1,62 @@
--- Données d'exemple pour les catégories
+INSERT INTO outils (nom, description, categorie_id, tarif) VALUES
+('Perceuse', 'Perceuse sans fil 18V', 1, 15.00),
+('Tournevis électrique', 'Tournevis rechargeable avec embouts', 1, 10.00),
+('Scie sauteuse', 'Scie sauteuse électrique', 2, 12.50),
+('Ponceuse orbitale', 'Ponceuse pour bois et surfaces planes', 2, 14.00),
+('Peinture blanche', 'Seau de peinture 10L', 3, 8.00),
+('Rouleau de peinture', 'Rouleau professionnel avec manche télescopique', 3, 5.00),
+('Aspirateur', 'Aspirateur industriel', 4, 20.00),
+('Nettoyeur haute pression', 'Nettoyeur pour terrasse et façade', 4, 25.00),
+('Tondeuse', 'Tondeuse thermique', 5, 30.00),
+('Taille-haie', 'Taille-haie électrique', 5, 18.00),
+('Multimètre', 'Appareil de mesure électrique numérique', 6, 7.50),
+('Pince à dénuder', 'Pince professionnelle isolée', 6, 4.00),
+('Clé à molette', 'Clé universelle réglable', 7, 6.00),
+('Coupe-tube', 'Coupe-tube en acier pour plomberie', 7, 9.50),
+('Cric hydraulique', 'Cric 2T pour levage de voiture', 8, 22.00),
+('Compresseur', 'Compresseur d’air 50L', 8, 28.00),
+('Marteau', 'Marteau de menuisier', 1, 5.50),
+('Ciseau à bois', 'Ciseau de précision pour bois', 2, 6.50),
+('Pistolet à peinture', 'Pistolet pulvérisateur 500W', 3, 18.00),
+('Nettoyeur vapeur', 'Nettoyeur vapeur multifonction', 4, 22.50);
+
 INSERT INTO categories (nom, description) VALUES
 ('Petit outillage', 'Outils pour les petits travaux de bricolage'),
 ('Menuiserie', 'Outils pour travailler le bois et la menuiserie'),
 ('Peinture', 'Matériel pour peinture et décoration'),
-('Nettoyage', 'Outils pour le nettoyage et l’entretien');
+('Nettoyage', 'Outils pour le nettoyage et l’entretien'),
+('Jardinage', 'Outils et accessoires pour le jardin'),
+('Électricité', 'Matériel pour installation et réparation électrique'),
+('Plomberie', 'Outils pour les travaux de plomberie'),
+('Mécanique', 'Outils pour la réparation automobile et mécanique');
 
--- Données d'exemple pour les outils
-INSERT INTO outils (nom, description, categorie_id, tarif) VALUES
-('Perceuse', 'Perceuse sans fil 18V', 1, 15.00),
-('Scie sauteuse', 'Scie sauteuse électrique', 2, 12.50),
-('Peinture blanche', 'Seau de peinture 10L', 3, 8.00),
-('Aspirateur', 'Aspirateur industriel', 4, 20.00);
-
--- Données d'exemple pour les images
-INSERT INTO images_outils (outil_id, url, description) VALUES
-(1, 'https://exemple.com/images/perceuse.jpg', 'Perceuse vue de face'),
-(2, 'https://exemple.com/images/scie.jpg', 'Scie sauteuse en action'),
-(3, 'https://exemple.com/images/peinture.jpg', 'Seau de peinture blanche 10L'),
-(4, 'https://exemple.com/images/aspirateur.jpg', 'Aspirateur industriel');
-
--- Exemple d'ajout au panier
 INSERT INTO panier (outil_id, date_location) VALUES
 (1, '2025-10-21'),
-(3, '2025-10-22');
+(3, '2025-10-22'),
+(7, '2025-10-22'),
+(9, '2025-10-23'),
+(15, '2025-10-25'),
+(19, '2025-10-25');
+
+INSERT INTO images_outils (outil_id, url, description) VALUES
+(1, 'https://exemple.com/images/perceuse.jpg', 'Perceuse vue de face'),
+(1, 'https://exemple.com/images/perceuse2.jpg', 'Perceuse avec mallette'),
+(2, 'https://exemple.com/images/tournevis.jpg', 'Tournevis électrique'),
+(3, 'https://exemple.com/images/scie.jpg', 'Scie sauteuse en action'),
+(4, 'https://exemple.com/images/ponceuse.jpg', 'Ponceuse orbitale'),
+(5, 'https://exemple.com/images/peinture.jpg', 'Seau de peinture blanche 10L'),
+(6, 'https://exemple.com/images/rouleau.jpg', 'Rouleau avec bac'),
+(7, 'https://exemple.com/images/aspirateur.jpg', 'Aspirateur industriel'),
+(8, 'https://exemple.com/images/nettoyeur_haute_pression.jpg', 'Nettoyeur haute pression'),
+(9, 'https://exemple.com/images/tondeuse.jpg', 'Tondeuse thermique'),
+(10, 'https://exemple.com/images/taillehaie.jpg', 'Taille-haie électrique'),
+(11, 'https://exemple.com/images/multimetre.jpg', 'Multimètre numérique'),
+(12, 'https://exemple.com/images/pince.jpg', 'Pince à dénuder'),
+(13, 'https://exemple.com/images/cle_molette.jpg', 'Clé à molette réglable'),
+(14, 'https://exemple.com/images/coupe_tube.jpg', 'Coupe-tube acier'),
+(15, 'https://exemple.com/images/cric.jpg', 'Cric hydraulique'),
+(16, 'https://exemple.com/images/compresseur.jpg', 'Compresseur d’air 50L'),
+(17, 'https://exemple.com/images/marteau.jpg', 'Marteau de menuisier'),
+(18, 'https://exemple.com/images/ciseau_bois.jpg', 'Ciseau à bois'),
+(19, 'https://exemple.com/images/pistolet_peinture.jpg', 'Pistolet à peinture électrique'),
+(20, 'https://exemple.com/images/nettoyeur_vapeur.jpg', 'Nettoyeur vapeur multifonction');
