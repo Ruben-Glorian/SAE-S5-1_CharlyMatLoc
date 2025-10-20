@@ -1,0 +1,44 @@
+version: '3.9'
+
+networks:
+  charlymatloc.net:
+    driver: bridge
+
+services:
+  # service api.charlymatloc : API PHP pour la location de matériel
+  api.charlymatloc:
+    build:
+      context: ./build
+      dockerfile: Dockerfile
+    ports:
+      - '6080:80'
+    volumes:
+      - ./app:/var/php
+    working_dir: /var/php
+    networks:
+      - charlymatloc.net
+    depends_on:
+      - charlymatloc.db
+    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
+    restart: unless-stopped
+
+  # service postgresql pour l'application
+  charlymatloc.db:
+    image: 'postgres:latest'
+    env_file: ./charlymatloc.env
+    ports:
+      - '5432:5432'
+    networks:
+      - charlymatloc.net
+    volumes:
+      - ./sql:/var/sql
+    restart: unless-stopped
+
+  # interface d'administration Adminer
+  adminer:
+    image: adminer
+    ports:
+      - '8080:8080'
+    networks:
+      - charlymatloc.net
+    restart: unless-stopped
