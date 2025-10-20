@@ -16,7 +16,7 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface
     }
 
     public function listerOutils(): array{
-        $stmt = $this->pdo->prepare('SELECT * FROM outils');
+        $stmt = $this->pdo->prepare('SELECT o.*, (SELECT url FROM images_outils WHERE outil_id = o.id LIMIT 1) AS image_url FROM outils o');
         $stmt->execute();
 
         $outils = [];
