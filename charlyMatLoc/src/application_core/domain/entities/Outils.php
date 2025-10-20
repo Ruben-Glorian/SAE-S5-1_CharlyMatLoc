@@ -1,7 +1,8 @@
 <?php
 
+namespace charlyMatLoc\core\application_core\domain\entities;
 
-namespace App\Domain\Entity;
+namespace charlyMatLoc\src\application_core\domain\entities;
 
 class Outil
 {
@@ -10,20 +11,13 @@ class Outil
     private ?string $description;
     private float $tarif;
     private string $categorie;
-    private ?string $imageUrl;
-    private int $quantite;
 
-    /**
-     * Constructeur
-     */
     public function __construct(
         int     $id,
         string  $nom,
         ?string $description,
         float   $tarif,
         string  $categorie,
-        ?string $imageUrl = null,
-        int     $quantite = 1
     )
     {
         $this->id = $id;
@@ -31,11 +25,7 @@ class Outil
         $this->description = $description;
         $this->tarif = $tarif;
         $this->categorie = $categorie;
-        $this->imageUrl = $imageUrl;
-        $this->quantite = $quantite;
     }
-
-    // --- Getters ---
 
     public function getId(): int
     {
@@ -62,51 +52,7 @@ class Outil
         return $this->categorie;
     }
 
-    public function getImageUrl(): ?string
-    {
-        return $this->imageUrl;
-    }
 
-    public function getQuantite(): int
-    {
-        return $this->quantite;
-    }
-
-    // --- Setters ---
-
-    public function setNom(string $nom): void
-    {
-        $this->nom = $nom;
-    }
-
-    public function setDescription(?string $description): void
-    {
-        $this->description = $description;
-    }
-
-    public function setTarif(float $tarif): void
-    {
-        $this->tarif = $tarif;
-    }
-
-    public function setCategorie(string $categorie): void
-    {
-        $this->categorie = $categorie;
-    }
-
-    public function setImageUrl(?string $imageUrl): void
-    {
-        $this->imageUrl = $imageUrl;
-    }
-
-    public function setQuantite(int $quantite): void
-    {
-        $this->quantite = $quantite;
-    }
-
-    /**
-     * Méthode utilitaire : convertir en tableau (utile pour les réponses JSON)
-     */
     public function toArray(): array
     {
         return [
@@ -115,8 +61,6 @@ class Outil
             'description' => $this->description,
             'tarif' => $this->tarif,
             'categorie' => $this->categorie,
-            'imageUrl' => $this->imageUrl,
-            'quantite' => $this->quantite
         ];
     }
 }

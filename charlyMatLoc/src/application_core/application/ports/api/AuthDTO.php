@@ -1,5 +1,5 @@
 <?php
-namespace toubilib\core\application\ports\api;
+namespace charlyMatLoc\src\application_core\application\ports\api;
 
 class AuthDTO{
     public function __construct(
