@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "esbuild": "^0.17.18",
+    "handlebars": "^4.7.8"
+  },
+  "scripts": {
+    "dev": "esbuild index.js --bundle  --sourcemap --target=es2015 --outfile=js/out.js --watch",
+    "build": "esbuild index.js --bundle  --sourcemap --target=es2015 --outfile=js/out.js"
+  },
+  "name": "lachaudiere.web",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quent1540/SAE-LaChaudiere-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Quent1540/SAE-LaChaudiere-/issues"
+  },
+  "homepage": "https://github.com/Quent1540/SAE-LaChaudiere-#readme",
+  "devDependencies": {},
+  "description": ""
+}
