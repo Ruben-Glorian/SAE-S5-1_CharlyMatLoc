@@ -68,7 +68,7 @@ class Outils
             'description' => $this->description,
             'tarif' => $this->tarif,
             'categorie' => $this->categorie,
-            'images' => array_map(fn($img) => $img->toArray(), $this->images)
+            'images' => $this->images
         ];
     }
 }
