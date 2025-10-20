@@ -1,12 +1,11 @@
 <?php
 namespace toubilib\infra\repositories;
 
-use toubilib\core\application\ports\api\CredentialsDTO;
-use toubilib\core\application\ports\spi\repositoryInterfaces\AuthRepositoryInterface;
-use toubilib\core\domain\entities\User;
+use charlyMatLoc\src\application_core\application\ports\spi\repositoryInterfaces\AuthRepositoryInterface;
+use charlyMatLoc\src\application_core\application\ports\api\CredentialsDTO;
+use charlyMatLoc\src\application_core\domain\entities\User;
 
-class PDOAuthReposiroty implements AuthRepositoryInterface
-{
+class PDOAuthReposiroty implements AuthRepositoryInterface {
     private \PDO $pdo;
 
     public function __construct(\PDO $pdo) {
@@ -40,8 +39,7 @@ class PDOAuthReposiroty implements AuthRepositoryInterface
         $stmt->execute();
     }
 
-    public function findByEmail(string $email): ?User
-    {
+    public function findByEmail(string $email): ?User {
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':email', $email);

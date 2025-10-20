@@ -1,10 +1,8 @@
 <?php
 
+namespace charlyMatLoc\core\application_core\domain\entities;
 
-namespace App\Domain\Entity;
-
-class Outil
-{
+class Outil {
     private int $id;
     private string $nom;
     private ?string $description;
@@ -34,8 +32,6 @@ class Outil
         $this->imageUrl = $imageUrl;
         $this->quantite = $quantite;
     }
-
-    // --- Getters ---
 
     public function getId(): int
     {
@@ -72,8 +68,6 @@ class Outil
         return $this->quantite;
     }
 
-    // --- Setters ---
-
     public function setNom(string $nom): void
     {
         $this->nom = $nom;
@@ -102,21 +96,5 @@ class Outil
     public function setQuantite(int $quantite): void
     {
         $this->quantite = $quantite;
-    }
-
-    /**
-     * Méthode utilitaire : convertir en tableau (utile pour les réponses JSON)
-     */
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'nom' => $this->nom,
-            'description' => $this->description,
-            'tarif' => $this->tarif,
-            'categorie' => $this->categorie,
-            'imageUrl' => $this->imageUrl,
-            'quantite' => $this->quantite
-        ];
     }
 }

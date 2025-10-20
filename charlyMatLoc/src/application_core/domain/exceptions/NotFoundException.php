@@ -1,6 +1,6 @@
 <?php
 
-namespace toubilib\core\domain\exceptions;
+namespace charlyMatLoc\core\domain\exceptions;
 
 class NotFoundException extends \Exception{
 
