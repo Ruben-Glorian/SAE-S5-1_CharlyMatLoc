@@ -9,6 +9,7 @@ class Images
     private string $outil_id;
     private string $url;
     private string $description;
+
     public function __construct(
         int $id,
         string $outil_id,
@@ -21,6 +22,8 @@ class Images
         $this->url = $url;
         $this->description = $description;
     }
+
+    // Getters
     public function getId(): int
     {
         return $this->id;
@@ -42,7 +45,8 @@ class Images
     {
         return [
             'id' => $this->id,
-            'nom' => $this->nom,
+            'outil_id' => $this->outil_id,
+            'url' => $this->url,
             'description' => $this->description
         ];
     }

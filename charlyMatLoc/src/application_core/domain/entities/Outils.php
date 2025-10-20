@@ -11,6 +11,7 @@ class Outils
     private ?string $description;
     private float $tarif;
     private string $categorie;
+    private array $images;
 
     public function __construct(
         int     $id,
@@ -18,6 +19,7 @@ class Outils
         ?string $description,
         float   $tarif,
         string  $categorie,
+        array $images = []
     )
     {
         $this->id = $id;
@@ -25,6 +27,7 @@ class Outils
         $this->description = $description;
         $this->tarif = $tarif;
         $this->categorie = $categorie;
+        $this->images = $images;
     }
 
     public function getId(): int
@@ -52,6 +55,10 @@ class Outils
         return $this->categorie;
     }
 
+    public function getImages(): array
+    {
+        return $this->images;
+    }
 
     public function toArray(): array
     {
@@ -61,6 +68,7 @@ class Outils
             'description' => $this->description,
             'tarif' => $this->tarif,
             'categorie' => $this->categorie,
+            'images' => array_map(fn($img) => $img->toArray(), $this->images)
         ];
     }
 }
