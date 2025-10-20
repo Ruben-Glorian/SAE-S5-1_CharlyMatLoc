@@ -1,13 +1,13 @@
 <?php
 
 use charlyMatLoc\src\api\actions\getCatalogueAction;
-use charlyMatLoc\src\api\actions\getCatalogueHtmlAction;
+use charlyMatLoc\webui\actions\getCatalogueViewAction;
 
 return [
-    'getCatalogueActioCn' => function($container) {
+    'getCatalogueAction' => function($container) {
         return new getCatalogueAction($container->get('serviceCatalogue'));
     },
     'getCatalogueHtmlAction' => function($container) {
-        return new getCatalogueHtmlAction($container->get('serviceCatalogue'));
+        return new getCatalogueViewAction($container->get('serviceCatalogue'));
     },
 ];

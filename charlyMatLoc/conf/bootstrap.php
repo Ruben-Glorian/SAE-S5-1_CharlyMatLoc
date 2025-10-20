@@ -24,7 +24,7 @@ $app->addErrorMiddleware($c->get('settings')['displayErrorDetails'], false, fals
     ->forceContentType('application/json')
 ;
 
-$twig = Twig::create(__DIR__ . '/../templates', ['cache' => false]);
+$twig = Twig::create(__DIR__ . '/../webui/views', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
 $app = (require_once __DIR__ . '/routes.php')($app);
 

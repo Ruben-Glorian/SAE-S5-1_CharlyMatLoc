@@ -1,13 +1,14 @@
 <?php
 
-namespace charlyMatLoc\src\api\actions;
+namespace charlyMatLoc\webui\actions;
 
+use charlyMatLoc\src\api\actions\AbstractAction;
 use charlyMatLoc\src\application_core\application\ports\spi\CatalogueRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 
-class getCatalogueHtmlAction extends AbstractAction {
+class getCatalogueViewAction extends AbstractAction {
     private $serviceCatalogue;
 
     public function __construct(CatalogueRepositoryInterface $serviceCatalogue) {
