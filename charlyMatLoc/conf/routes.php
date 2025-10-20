@@ -10,5 +10,6 @@ use charlyMatLoc\src\api\actions\getDetailsOutilsAction;
 return function( \Slim\App $app):\Slim\App {
     $app->get('/catalogue', \charlyMatLoc\src\api\actions\getCatalogueAction::class);
     $app->get('/outils/{id}', \charlyMatLoc\src\api\actions\getDetailsOutilsAction::class);
+    $app->get('/panier', \charlyMatLoc\src\api\actions\getPanierAction::class);
     return $app;
 };
