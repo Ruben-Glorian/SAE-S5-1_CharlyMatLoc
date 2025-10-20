@@ -2,6 +2,7 @@
 namespace charlyMatLoc\src\infrastructure\repositories;
 
 use charlyMatLoc\src\application_core\application\ports\spi\CatalogueRepositoryInterface;
+use charlyMatLoc\src\application_core\domain\entities\Outils;
 
 class PDOCatalogueRepository implements CatalogueRepositoryInterface
 {
@@ -20,5 +21,9 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface
             $outils[] = $row;
         }
         return $outils;
+    }
+
+    public function detailsOutil(string $id): ?Outils{
+        return "bouh";
     }
 }

@@ -15,7 +15,9 @@ class getCatalogueAction extends AbstractAction{
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface{
         $catalogue = $this->serviceCatalogue->listerOutils();
-        $catalogueArray = array_map(fn($o) => $o->toArray(), $catalogue);
+        $catalogueArray = array_map(function($o) {
+            return is_object($o) && method_exists($o, 'toArray') ? $o->toArray() : $o;
+        }, $catalogue);
         $response->getBody()->write(json_encode($catalogueArray));
         //200 ok
         return $response
