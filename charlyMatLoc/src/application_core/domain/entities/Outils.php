@@ -4,7 +4,7 @@ namespace charlyMatLoc\core\application_core\domain\entities;
 
 namespace charlyMatLoc\src\application_core\domain\entities;
 
-class Outil
+class Outils
 {
     private int $id;
     private string $nom;
