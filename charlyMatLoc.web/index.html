@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>La chaudière</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<h1>CharlyMatLoc</h1>
+<script id="accueilTemplate" type="text/x-handlebars-template">
+    <h2>Liste des événements :</h2>
+    <ul>
+        {{#each events}}
+            <li onclick="displayEventDetails('{{this.id}}')">
+                <div class="event-item">
+                    <h3>{{this.titre}}</h3>
+                    <p><strong>Catégorie :</strong>
+                        {{#each ../categories}}
+                            {{#if (eq this.id ../this.categorie_id)}}
+                                {{this.libelle}}
+                            {{/if}}
+                        {{/each}}
+                    </p>
+                    <p><strong>Date :</strong> {{this.date_debut}}</p>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</script>
+
+<script src="out.js" defer></script>
+</body>
+</html>
