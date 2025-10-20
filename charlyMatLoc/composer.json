@@ -18,11 +18,11 @@
   "autoload": {
     "psr-4" : { 
       "charlyMatLoc\\": "./"
-    },
+    }
+  },
   "autoload-dev": {
         "psr-4": {
             "charlyMatLoc\\tests\\": "tests/"
         }
-    }
   }
 }
