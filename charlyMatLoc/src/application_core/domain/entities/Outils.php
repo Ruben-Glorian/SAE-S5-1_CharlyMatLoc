@@ -11,6 +11,7 @@ class Outils
     private ?string $description;
     private float $tarif;
     private string $categorie;
+    private string $image_url;
     private array $images;
 
     public function __construct(
@@ -19,6 +20,7 @@ class Outils
         ?string $description,
         float   $tarif,
         string  $categorie,
+        string  $image_url,
         array $images = []
     )
     {
@@ -27,6 +29,7 @@ class Outils
         $this->description = $description;
         $this->tarif = $tarif;
         $this->categorie = $categorie;
+        $this->image_url = $image_url;
         $this->images = $images;
     }
 
@@ -55,6 +58,11 @@ class Outils
         return $this->categorie;
     }
 
+    public function getImageUrl(): string
+    {
+        return $this->image_url;
+    }
+
     public function getImages(): array
     {
         return $this->images;
@@ -68,6 +76,7 @@ class Outils
             'description' => $this->description,
             'tarif' => $this->tarif,
             'categorie' => $this->categorie,
+            'image_url' => $this->image_url,
             'images' => $this->images
         ];
     }
