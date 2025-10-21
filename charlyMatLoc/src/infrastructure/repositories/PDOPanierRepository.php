@@ -35,4 +35,20 @@ class PDOPanierRepository implements PanierRepositoryInterface{
             'total' => $total
         ];
     }
+    public function ajouterOutil(int $idOutil, string $date): void{
+        $sql = "INSERT INTO panier (outil_id, date_location, date_ajout) VALUES (:outil_id, :date_location, NOW())";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':outil_id', $idOutil, \PDO::PARAM_INT);
+        $stmt->bindParam(':date_location', $date, \PDO::PARAM_STR);
+        $stmt->execute();
+    }
+    public function verifDoublons(int $idOutil, string $date): bool {
+        $panier = $this->listerPanier();
+        foreach ($panier['items'] as $item) {
+            if ($item['outil_id'] == $idOutil && $item['date_location'] == $date) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
