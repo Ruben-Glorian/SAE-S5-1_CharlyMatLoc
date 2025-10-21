@@ -23,6 +23,10 @@ fetch('/catalogue/api')
             img.src = outil.image_url;
             img.alt = outil.nom;
             card.appendChild(img);
+            //ajout d'un clic sur une image pour voir le detail de l'outil
+            card.onclick = () => {
+                window.location.href = `detailsOutil.html?id=${outil.id}`;
+            }
 
             //nom
             const name = document.createElement('div');
