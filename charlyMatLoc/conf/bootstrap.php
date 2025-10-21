@@ -1,5 +1,6 @@
 <?php
 
+use charlyMatLoc\src\api\middlewares\CorsMiddleware;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 use Slim\Views\Twig;
@@ -23,6 +24,7 @@ $app->addErrorMiddleware($c->get('settings')['displayErrorDetails'], false, fals
     ->getDefaultErrorHandler()
     ->forceContentType('application/json')
 ;
+$app->add(new CorsMiddleware());
 
 $twig = Twig::create(__DIR__ . '/../webui/views', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
