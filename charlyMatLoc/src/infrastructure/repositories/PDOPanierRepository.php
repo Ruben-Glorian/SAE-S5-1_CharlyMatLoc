@@ -12,9 +12,10 @@ class PDOPanierRepository implements PanierRepositoryInterface{
     }
 
     public function listerPanier(): array{
-        $sql = "SELECT p.id, p.outil_id, p.date_location, p.date_ajout, o.nom, o.tarif
+        $sql = "SELECT p.id, p.outil_id, p.date_location, p.date_ajout, o.nom, o.tarif, i.url AS image_url
                 FROM panier p
-                JOIN outils o ON p.outil_id = o.id";
+                JOIN outils o ON p.outil_id = o.id
+                LEFT JOIN images_outils i ON o.id = i.outil_id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         $items = [];
@@ -26,7 +27,8 @@ class PDOPanierRepository implements PanierRepositoryInterface{
                 'nom' => $row['nom'],
                 'tarif' => $row['tarif'],
                 'date_location' => $row['date_location'],
-                'date_ajout' => $row['date_ajout']
+                'date_ajout' => $row['date_ajout'],
+                'image_url' => $row['image_url']
             ];
             $total += (float)$row['tarif'];
         }
