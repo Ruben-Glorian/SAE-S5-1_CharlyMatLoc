@@ -5,7 +5,6 @@ networks:
     driver: bridge
 
 services:
-  # service api.charlymatloc : API PHP pour la location de matériel
   api.charlymatloc:
     build:
       context: ./build
@@ -22,7 +21,6 @@ services:
     command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
     restart: unless-stopped
 
-  # service postgresql pour l'application
   charlymatloc.db:
     image: 'postgres:latest'
     env_file: ./charlymatLoc.env
@@ -34,7 +32,6 @@ services:
       - ./sql:/var/sql
     restart: unless-stopped
 
-  # interface d'administration Adminer
   adminer:
     image: adminer
     ports:
@@ -42,3 +39,4 @@ services:
     networks:
       - charlymatloc.net
     restart: unless-stopped
+    command: php -S 0.0.0.0:8080
