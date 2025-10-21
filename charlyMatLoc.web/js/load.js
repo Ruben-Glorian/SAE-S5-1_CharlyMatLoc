@@ -1,13 +1,13 @@
-export var allEvents = null;
+export var allOutils = null;
 export var allCategories = null;
 export async function load() {
     try {
-        const response = await fetch('http://docketu.iutnc.univ-lorraine.fr:13000/api/evenements', { method: 'GET' });
+        const response = await fetch('http://localhost:6080/catalogue', { method: 'GET' });
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        allEvents = Array.isArray(data.evenement) ? data.evenement : [];
+        allOutils = Array.isArray(data.evenement) ? data.evenement : [];
     } catch (error) {
         console.error('Unable to fetch events:', error);
         return [];

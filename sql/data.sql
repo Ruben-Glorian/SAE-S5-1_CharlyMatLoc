@@ -1,3 +1,13 @@
+INSERT INTO categories (nom, description) VALUES
+('Petit outillage', 'Outils pour les petits travaux de bricolage'),
+('Menuiserie', 'Outils pour travailler le bois et la menuiserie'),
+('Peinture', 'Matériel pour peinture et décoration'),
+('Nettoyage', 'Outils pour le nettoyage et l’entretien'),
+('Jardinage', 'Outils et accessoires pour le jardin'),
+('Électricité', 'Matériel pour installation et réparation électrique'),
+('Plomberie', 'Outils pour les travaux de plomberie'),
+('Mécanique', 'Outils pour la réparation automobile et mécanique');
+
 INSERT INTO outils (nom, description, categorie_id, tarif) VALUES
 ('Perceuse', 'Perceuse sans fil 18V', 1, 15.00),
 ('Tournevis électrique', 'Tournevis rechargeable avec embouts', 1, 10.00),
@@ -18,44 +28,34 @@ INSERT INTO outils (nom, description, categorie_id, tarif) VALUES
 ('Marteau', 'Marteau de menuisier', 1, 5.50),
 ('Ciseau à bois', 'Ciseau de précision pour bois', 2, 6.50),
 ('Pistolet à peinture', 'Pistolet pulvérisateur 500W', 3, 18.00),
-('Nettoyeur vapeur', 'Nettoyeur vapeur multifonction', 4, 22.50);
-
-INSERT INTO categories (nom, description) VALUES
-('Petit outillage', 'Outils pour les petits travaux de bricolage'),
-('Menuiserie', 'Outils pour travailler le bois et la menuiserie'),
-('Peinture', 'Matériel pour peinture et décoration'),
-('Nettoyage', 'Outils pour le nettoyage et l’entretien'),
-('Jardinage', 'Outils et accessoires pour le jardin'),
-('Électricité', 'Matériel pour installation et réparation électrique'),
-('Plomberie', 'Outils pour les travaux de plomberie'),
-('Mécanique', 'Outils pour la réparation automobile et mécanique');
+('Nettoyeur vapeur', 'Nettoyeur vapeur multifonction', 4, 22.50); 
 
 INSERT INTO panier (outil_id, date_location) VALUES
-(21, '2025-10-21'),
-(22, '2025-10-22'),
-(23, '2025-10-22'),
-(24, '2025-10-23'),
-(25, '2025-10-25'),
-(26, '2025-10-25');
+(1, '2025-10-21'),
+(12, '2025-10-22'),
+(3, '2025-10-22'),
+(14, '2025-10-23'),
+(5, '2025-10-25'),
+(16, '2025-10-25');
 
 INSERT INTO images_outils (outil_id, url, description) VALUES
-                                                           (21, 'https://cdn.pixabay.com/photo/2015/11/11/12/27/drill-1038543_1280.jpg', 'Perceuse vue de face'),
-                                                           (22, 'https://cdn.pixabay.com/photo/2020/05/07/11/58/black-5141245_1280.jpg', 'Tournevis électrique'),
-                                                           (23, 'https://media.istockphoto.com/id/538026470/fr/photo/homme-%C3%A0-laide-de-mains-puzzle-%C3%A9lectrique.jpg?s=1024x1024&w=is&k=20&c=7LXgD3luN64BErA2gQV17VwPzKTGTorT_dcQvJz-3xM=', 'Scie sauteuse en action'),
-                                                           (24, 'https://demkar.fr/cdn/shop/files/MID5650202CA.webp?v=1699437553', 'Ponceuse orbitale'),
-                                                           (25, 'https://cdn.pixabay.com/photo/2018/03/18/19/26/color-3238004_1280.jpg', 'Seau de peinture blanche 10L'),
-                                                           (26, 'https://cdn.pixabay.com/photo/2018/03/18/19/26/color-3238004_1280.jpg', 'Rouleau avec bac'),
-                                                           (27, 'https://cdn.pixabay.com/photo/2014/07/01/10/48/cleaning-381090_1280.jpg', 'Aspirateur industriel'),
-                                                           (28, 'https://www.labonneremise.fr/cdn/shop/files/HIGH.jpg?v=1737118082&width=1214', 'Nettoyeur haute pression'),
-                                                           (29, 'https://cdn.pixabay.com/photo/2019/04/04/22/46/blue-lawn-mower-4103991_1280.jpg', 'Tondeuse thermique'),
-                                                           (30, 'https://shop.majardinerie.com/mjest/2229-large_default/taille-haies-electrique-450w.jpg', 'Taille-haie électrique'),
-                                                           (31, 'https://m.media-amazon.com/images/I/71cKnjlCZ6L.jpg', 'Multimètre numérique'),
-                                                           (32, 'https://cdn.pixabay.com/photo/2015/11/07/15/17/pliers-1031979_1280.jpg', 'Pince à dénuder'),
-                                                           (33, 'https://cdn.pixabay.com/photo/2015/08/08/19/55/confused-880735_1280.jpg', 'Clé à molette réglable'),
-                                                           (34, 'https://technologieservices.fr/media/catalog/product/c/o/coupe_tube_virax_741461_1_c710.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700', 'Coupe-tube acier'),
-                                                           (35, 'https://m.media-amazon.com/images/I/71To63VPkHL.jpg', 'Cric hydraulique'),
-                                                           (36, 'https://www.univers-du-pro.com/41374-large_default/compresseur-d-air-50l-a-huile-8-bar-115-psi-silencieux-2cv-15kw-kit-5-accessoires-air-comprime-itools.jpg', 'Compresseur d’air 50L'),
-                                                           (37, 'https://cdn.pixabay.com/photo/2021/03/06/17/09/mjollnir-6074194_1280.jpg', 'Marteau de menuisier'),
-                                                           (38, 'https://cdn.pixabay.com/photo/2019/12/25/14/46/carving-4718749_1280.jpg', 'Ciseau à bois'),
-                                                           (39, 'https://cdn.pixabay.com/photo/2017/04/11/16/07/spray-gun-2222038_1280.jpg', 'Pistolet à peinture électrique'),
-                                                           (40, 'https://images.ideoon.ch/images/product_images/popup_images/ch5701_31.jpg', 'Nettoyeur vapeur multifonction');
+                                                           (1, 'https://cdn.pixabay.com/photo/2015/11/11/12/27/drill-1038543_1280.jpg', 'Perceuse vue de face'),
+                                                           (2, 'https://cdn.pixabay.com/photo/2020/05/07/11/58/black-5141245_1280.jpg', 'Tournevis électrique'),
+                                                           (3, 'https://media.istockphoto.com/id/538026470/fr/photo/homme-%C3%A0-laide-de-mains-puzzle-%C3%A9lectrique.jpg?s=1024x1024&w=is&k=20&c=7LXgD3luN64BErA2gQV17VwPzKTGTorT_dcQvJz-3xM=', 'Scie sauteuse en action'),
+                                                           (4, 'https://demkar.fr/cdn/shop/files/MID5650202CA.webp?v=1699437553', 'Ponceuse orbitale'),
+                                                           (5, 'https://cdn.pixabay.com/photo/2018/03/18/19/26/color-3238004_1280.jpg', 'Seau de peinture blanche 10L'),
+                                                           (6, 'https://cdn.pixabay.com/photo/2018/03/18/19/26/color-3238004_1280.jpg', 'Rouleau avec bac'),
+                                                           (7, 'https://cdn.pixabay.com/photo/2014/07/01/10/48/cleaning-381090_1280.jpg', 'Aspirateur industriel'),
+                                                           (8, 'https://www.labonneremise.fr/cdn/shop/files/HIGH.jpg?v=1737118082&width=1214', 'Nettoyeur haute pression'),
+                                                           (9, 'https://cdn.pixabay.com/photo/2019/04/04/22/46/blue-lawn-mower-4103991_1280.jpg', 'Tondeuse thermique'),
+                                                           (10, 'https://shop.majardinerie.com/mjest/2229-large_default/taille-haies-electrique-450w.jpg', 'Taille-haie électrique'),
+                                                           (11, 'https://m.media-amazon.com/images/I/71cKnjlCZ6L.jpg', 'Multimètre numérique'),
+                                                           (12, 'https://cdn.pixabay.com/photo/2015/11/07/15/17/pliers-1031979_1280.jpg', 'Pince à dénuder'),
+                                                           (13, 'https://cdn.pixabay.com/photo/2015/08/08/19/55/confused-880735_1280.jpg', 'Clé à molette réglable'),
+                                                           (14, 'https://technologieservices.fr/media/catalog/product/c/o/coupe_tube_virax_741461_1_c710.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700', 'Coupe-tube acier'),
+                                                           (15, 'https://m.media-amazon.com/images/I/71To63VPkHL.jpg', 'Cric hydraulique'),
+                                                           (16, 'https://www.univers-du-pro.com/41374-large_default/compresseur-d-air-50l-a-huile-8-bar-115-psi-silencieux-2cv-15kw-kit-5-accessoires-air-comprime-itools.jpg', 'Compresseur d’air 50L'),
+                                                           (17, 'https://cdn.pixabay.com/photo/2021/03/06/17/09/mjollnir-6074194_1280.jpg', 'Marteau de menuisier'),
+                                                           (18, 'https://cdn.pixabay.com/photo/2019/12/25/14/46/carving-4718749_1280.jpg', 'Ciseau à bois'),
+                                                           (19, 'https://cdn.pixabay.com/photo/2017/04/11/16/07/spray-gun-2222038_1280.jpg', 'Pistolet à peinture électrique'),
+                                                           (20, 'https://images.ideoon.ch/images/product_images/popup_images/ch5701_31.jpg', 'Nettoyeur vapeur multifonction');

@@ -2,26 +2,24 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>La chaudière</title>
+    <title>CharlyMatLoc</title>
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-<h1>CharlyMatLoc</h1>
+    <h1>CharlyMatLoc</h1>
+    <div id="loadingIndicator">Chargement de la page, veuillez patienter...</div>
+</body>
+
 <script id="accueilTemplate" type="text/x-handlebars-template">
-    <h2>Liste des événements :</h2>
+    <h2>Liste des outils :</h2>
     <ul>
-        {{#each events}}
-            <li onclick="displayEventDetails('{{this.id}}')">
-                <div class="event-item">
-                    <h3>{{this.titre}}</h3>
-                    <p><strong>Catégorie :</strong>
-                        {{#each ../categories}}
-                            {{#if (eq this.id ../this.categorie_id)}}
-                                {{this.libelle}}
-                            {{/if}}
-                        {{/each}}
-                    </p>
-                    <p><strong>Date :</strong> {{this.date_debut}}</p>
+        {{#each outil}}
+            <li>
+                <div class="outil-preview">
+                    <img src="{this.images.url}">
+                    <h3>{{this.nom}}</h3>
+                    <p><strong>Tarif :</strong> {{this.tarif}}</p>
+                    <p><strong>Quantité :</strong> 1</p>
                 </div>
             </li>
         {{/each}}
@@ -29,5 +27,4 @@
 </script>
 
 <script src="out.js" defer></script>
-</body>
 </html>
