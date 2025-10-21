@@ -11,7 +11,7 @@ services:
       context: ./build
       dockerfile: Dockerfile
     ports:
-      - '6080:80'
+      - '2025:80'
     volumes:
       - ./charlyMatLoc:/var/php
     working_dir: /var/php
@@ -38,7 +38,7 @@ services:
   adminer:
     image: adminer
     ports:
-      - '8080:8080'
+      - '2026:8080'
     networks:
       - charlymatloc.net
     restart: unless-stopped
