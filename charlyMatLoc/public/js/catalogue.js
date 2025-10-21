@@ -24,7 +24,7 @@ fetch('/catalogue/api')
             img.alt = outil.nom;
             card.appendChild(img);
             //ajout d'un clic sur une image pour voir le detail de l'outil
-            card.onclick = () => {
+            img.onclick = () => {
                 window.location.href = `detailsOutil.html?id=${outil.id}`;
             }
 
