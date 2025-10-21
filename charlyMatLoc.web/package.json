@@ -15,15 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Quent1540/SAE-LaChaudiere-.git"
+    "url": "git+https://github.com/Ruben-Glorian/SAE-S5-1_CharlyMatLoc.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Quent1540/SAE-LaChaudiere-/issues"
+    "url": "https://github.com/Ruben-Glorian/SAE-S5-1_CharlyMatLoc/issues"
   },
-  "homepage": "https://github.com/Quent1540/SAE-LaChaudiere-#readme",
+  "homepage": "https://github.com/Ruben-Glorian/SAE-S5-1_CharlyMatLoc-#readme",
   "devDependencies": {},
   "description": ""
 }

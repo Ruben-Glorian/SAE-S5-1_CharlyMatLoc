@@ -1,8 +1,8 @@
 import Handlebars from 'handlebars';
-import {allEvents, load} from './load';
+import {allOutils, load} from './load';
 
 export async function displayAccueil() {
-    if (allEvents === null) {
+    if (allOutils === null) {
         await load();
     }
     try {
