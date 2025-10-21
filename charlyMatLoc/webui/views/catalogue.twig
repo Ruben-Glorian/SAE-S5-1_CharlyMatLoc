@@ -14,6 +14,16 @@
     </style>
 </head>
 <body>
+    <div style="position:fixed;top:24px;right:32px;z-index:1000;">
+        <form method="get" action="/panier">
+            <button type="submit" style="background:none;border:none;cursor:pointer;">
+                <span title="Voir le panier" style="font-size:2em;">
+                    🛒 Mon panier
+                </span>
+            </button>
+        </form>
+    </div>
+
     <h1>Catalogue des outils</h1>
 
     {% if catalogue is empty %}
@@ -22,8 +32,9 @@
         <div class="catalogue">
             {% for outil in catalogue %}
                 <div class="card">
-                    <img src="{{ outil.image_url }}" alt="{{ outil.nom }}">
-                    <div class="name">{{ outil.nom|e }}</div>
+                    <a href="/outils/{{ outil.id }}" style="text-decoration:none;color:inherit;" title="Accéder au détail">
+                        <img src="{{ outil.image_url }}" alt="{{ outil.nom }}">
+                    </a>
                     <div class="meta">1 exemplaire disponible</div>
                     <form method="post" action="/api/panier/ajouter">
                         <input type="hidden" name="outil_id" value="{{ outil.id }}">
