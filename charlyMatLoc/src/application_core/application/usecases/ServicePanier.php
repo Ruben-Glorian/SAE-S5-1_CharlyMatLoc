@@ -15,4 +15,10 @@ class ServicePanier implements ServicePanierInterface {
     public function listerPanier(): array{
         return $this->panierRepository->listerPanier();
     }
+    public function ajouterOutil(int $idOutil, string $date): void{
+        $this->panierRepository->ajouterOutil($idOutil, $date);
+    }
+    public function verifDoublons(int $idOutil, string $date): bool{
+        return $this->panierRepository->verifDoublons($idOutil, $date);
+    }
 }

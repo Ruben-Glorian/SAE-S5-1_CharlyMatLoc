@@ -25,10 +25,15 @@
                     <img src="{{ outil.image_url }}" alt="{{ outil.nom }}">
                     <div class="name">{{ outil.nom|e }}</div>
                     <div class="meta">1 exemplaire disponible</div>
+                    <form method="post" action="/api/panier/ajouter">
+                        <input type="hidden" name="outil_id" value="{{ outil.id }}">
+                        <label for="date-{{ outil.id }}">Date :</label>
+                        <input type="date" id="date-{{ outil.id }}" name="date" required min="{{ "now"|date('Y-m-d') }}">
+                        <button type="submit">Ajouter au panier</button>
+                    </form>
                 </div>
             {% endfor %}
         </div>
     {% endif %}
 </body>
 </html>
-

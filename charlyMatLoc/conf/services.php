@@ -3,6 +3,7 @@
 use charlyMatLoc\src\api\actions\getCatalogueAction;
 use charlyMatLoc\src\api\actions\getDetailsOutilsAction;
 use charlyMatLoc\src\api\actions\getPanierAction;
+use charlyMatLoc\src\api\actions\ajoutPanierAction;
 use charlyMatLoc\src\application_core\application\ports\spi\CatalogueRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\PanierRepositoryInterface;
 use charlyMatLoc\src\infrastructure\repositories\PDOCatalogueRepository;
@@ -33,5 +34,10 @@ return[
     },
     getPanierAction::class => function ($container) {
         return new getPanierAction($container->get(PanierRepositoryInterface::class));
+    },
+    ajoutPanierAction::class => function($container) {
+        return new \charlyMatLoc\src\api\actions\ajoutPanierAction(
+            $container->get(PanierRepositoryInterface::class)
+        );
     }
 ];
