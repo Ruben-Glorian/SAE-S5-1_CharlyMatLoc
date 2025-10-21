@@ -31,9 +31,10 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface{
     public function detailsOutil(int|string $id): ?Outils{
         try {
             $sql = "
-                SELECT o.id, o.nom, o.description, o.tarif, c.nom AS categorie
+                SELECT o.id, o.nom, o.description, o.tarif, c.nom AS categorie, io.url AS image_url
                 FROM outils o
                 JOIN categories c ON o.categorie_id = c.id
+                JOIN images_outils io ON o.id = io.outil_id
                 WHERE o.id = :id
             ";
 
@@ -54,6 +55,7 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface{
                 $row['description'],
                 (float)$row['tarif'],
                 $row['categorie'],
+                $row['image_url'],
                 $images
             );
 
