@@ -13,7 +13,7 @@ class PDOAuthRepository implements AuthRepositoryInterface {
         $this->pdo = $pdo;
     }
 
-    public function findById(string $id): User
+    public function findById(string $id): ?User
     {
         $sql = "SELECT * FROM users WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
@@ -21,6 +21,7 @@ class PDOAuthRepository implements AuthRepositoryInterface {
         $stmt->execute();
 
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (!$row) return null;
 
         return new User(
             id: $row['id'],
@@ -45,6 +46,7 @@ class PDOAuthRepository implements AuthRepositoryInterface {
         $stmt->execute();
 
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if (!$row) return null;
 
         return new User(
             id: $row['id'],

@@ -34,9 +34,8 @@ date_ajout TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- Table des utilisateurs
 DROP TABLE IF EXISTS "users";
 CREATE TABLE "public"."users" (
-"id" uuid NOT NULL,
-"email" character varying(128) NOT NULL,
-"password" character varying(256) NOT NULL,
-CONSTRAINT "users_email" UNIQUE ("email"),
-CONSTRAINT "users_id" PRIMARY KEY ("id")
+    "id" SERIAL PRIMARY KEY,
+    "email" character varying(128) NOT NULL,
+    "password" character varying(256) NOT NULL,
+    CONSTRAINT "users_email" UNIQUE ("email")
 ) WITH (oids = false);
