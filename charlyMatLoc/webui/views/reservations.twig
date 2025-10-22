@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <title>Mes réservations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body { font-family: Arial, sans-serif; background:#f7f7f7; color:#222; margin:20px; }
+        .container { max-width: 900px; margin:40px auto; padding:18px; background:#fff; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+        table { width:100%; border-collapse:collapse; }
+        th, td { padding:10px; border-bottom:1px solid #eee; text-align:left; }
+        th { background:#fafafa; }
+        .empty { color:#666; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Mes réservations</h1>
+
+    {% if reservations is empty %}
+        <p class="empty">Aucune réservation précédente.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Outil</th>
+                    <th>Date de location</th>
+                    <th>Tarif</th>
+                    <th>Date ajout</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in reservations %}
+                    <tr>
+                        <td>{{ item.nom }}</td>
+                        <td>{{ item.date_location }}</td>
+                        <td>{{ item.tarif }} €</td>
+                        <td>{{ item.date_ajout }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p style="margin-top:12px"><strong>Total :</strong> {{ total }} €</p>
+    {% endif %}
+
+    <p style="margin-top:14px;"><a href="/catalogue">Retour au catalogue</a></p>
+</div>
+</body>
+</html>

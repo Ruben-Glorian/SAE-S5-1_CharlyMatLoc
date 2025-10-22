@@ -11,6 +11,7 @@ use charlyMatLoc\src\api\middlewares\CorsMiddleware;
 use charlyMatLoc\webui\actions\getCatalogueViewAction;
 use charlyMatLoc\webui\actions\SigninViewAction;
 use charlyMatLoc\webui\actions\ConnectedViewAction;
+use charlyMatLoc\webui\actions\ReservationsViewAction;
 
 return function(\Slim\App $app):\Slim\App {
     //Routes des apis
@@ -24,6 +25,7 @@ return function(\Slim\App $app):\Slim\App {
     $app->get('/catalogue', getCatalogueViewAction::class);
     $app->get('/connected', ConnectedViewAction::class);
     $app->get('/signin', SigninViewAction::class);
+    $app->get('/reservations', ReservationsViewAction::class);
 
     //Routes qui marchent pour les 2
     $app->get('/outils/{id}', getDetailsOutilsAction::class);
