@@ -1,6 +1,6 @@
 <?php
 
-namespace charlyMatLoc\core\domain\exceptions;
+namespace charlyMatLoc\src\application_core\domain\exceptions;
 
 class ArgumentInvalideException extends \Exception{
 
