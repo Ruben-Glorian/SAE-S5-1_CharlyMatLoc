@@ -4,8 +4,12 @@ use charlyMatLoc\src\api\actions\getCatalogueAction;
 use charlyMatLoc\src\api\actions\getDetailsOutilsAction;
 use charlyMatLoc\src\api\actions\getPanierAction;
 use charlyMatLoc\src\api\actions\ajoutPanierAction;
+use charlyMatLoc\src\api\actions\SignInAction;
+use charlyMatLoc\src\application_core\application\ports\spi\AuthRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\CatalogueRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\PanierRepositoryInterface;
+use charlyMatLoc\src\application_core\application\usecases\ServiceCatalogue;
+use charlyMatLoc\src\infrastructure\repositories\PDOAuthRepository;
 use charlyMatLoc\src\infrastructure\repositories\PDOCatalogueRepository;
 use charlyMatLoc\src\infrastructure\repositories\PDOPanierRepository;
 use charlyMatLoc\webui\actions\getCatalogueViewAction;
@@ -39,5 +43,13 @@ return[
         return new \charlyMatLoc\src\api\actions\ajoutPanierAction(
             $container->get(PanierRepositoryInterface::class)
         );
+    },
+    SignInAction::class => function ($container) {
+        return new SignInAction(
+            $container->get(PanierRepositoryInterface::class)
+        );
+    },
+    AuthRepositoryInterface::class => function ($container) {
+        return new PDOAuthRepository($container->get('pdo'));
     }
 ];
