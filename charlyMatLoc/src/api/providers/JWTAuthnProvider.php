@@ -5,7 +5,6 @@ use charlyMatLoc\src\application_core\application\ports\api\dtos\AuthDTO;
 use charlyMatLoc\src\application_core\application\ports\api\dtos\CredentialsDTO;
 use charlyMatLoc\src\application_core\application\ports\api\dtos\ProfileDTO;
 use charlyMatLoc\src\application_core\application\ports\api\ServiceUserInterface;
-use Firebase\JWT\JWT;
 
 class JWTAuthnProvider implements AuthnProviderInterface{
 

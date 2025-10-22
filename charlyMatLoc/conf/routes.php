@@ -13,32 +13,22 @@ use charlyMatLoc\webui\actions\SigninViewAction;
 use charlyMatLoc\webui\actions\ConnectedViewAction;
 
 return function(\Slim\App $app):\Slim\App {
-
-    //Middleware CORS
-    $app->add(new CorsMiddleware());
+    //Routes des apis
+    $app->get('/catalogue/api', getCatalogueAction::class);
+    $app->get('/panier/api', getPanierAction::class);
+    $app->post('/api/panier/ajouter', ajoutPanierAction::class);
+    $app->post('/signup', SignUpAction::class)->setName('signup');
+    $app->post('/signin', SignInAction::class);
 
     //Routes pour les twigs
     $app->get('/catalogue', getCatalogueViewAction::class);
     $app->get('/connected', ConnectedViewAction::class);
+    $app->get('/signin', SigninViewAction::class);
 
-    //Routes pour les api
-    $app->get('/catalogue/api', getCatalogueAction::class);
-
-    //Routes pour le detail d'un outil
+    //Routes qui marchent pour les 2
     $app->get('/outils/{id}', getDetailsOutilsAction::class);
 
-    //Routes pour le panier
-    $app->get('/panier/api', getPanierAction::class);
-
-    //Routes pour ajouter un outil au panier
-    $app->post('/api/panier/ajouter', ajoutPanierAction::class);
-
-    //Route pour s'inscrire
-    $app->post('/signup', SignUpAction::class)->setName('signup');
-
-    //Routes pour la connexion
-    $app->get('/signin', SigninViewAction::class);
-    $app->post('/signin', SignInAction::class);
-
+    //Middleware CORS
+    $app->add(new CorsMiddleware());
     return $app;
 };

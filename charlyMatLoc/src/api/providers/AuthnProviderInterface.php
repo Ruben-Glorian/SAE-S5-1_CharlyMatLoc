@@ -2,7 +2,6 @@
 
 namespace charlyMatLoc\src\api\providers;
 
-use charlyMatLoc\src\application_core\application\ports\api\dtos\AuthDTO;
 use charlyMatLoc\src\application_core\application\ports\api\dtos\CredentialsDTO;
 use charlyMatLoc\src\application_core\application\ports\api\dtos\ProfileDTO;
 
