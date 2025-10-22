@@ -73,9 +73,15 @@ return[
         $serviceUser = new ServiceUser($container->get(AuthRepositoryInterface::class));
         return new JWTAuthnProvider($jwtManager, $serviceUser);
     },
+    JWTAuthnProvider::class => function($container) {
+        return new JWTAuthnProvider(
+            $container->get('JWTManager'),
+            $container->get('ServiceUser')
+        );
+    },
     SignUpAction::class => function ($container) {
         return new SignUpAction(
-            $container->get(AuthRepositoryInterface::class)
+            $container->get(JWTAuthnProvider::class)
         );
     },
     'JWTManager' => function($container) {
