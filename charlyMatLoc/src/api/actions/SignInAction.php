@@ -6,6 +6,7 @@ use charlyMatLoc\src\api\providers\AuthnProviderInterface;
 use charlyMatLoc\src\application_core\application\ports\api\dtos\CredentialsDTO;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Views\Twig;
 
 class SignInAction {
     public function __construct(
@@ -38,11 +39,9 @@ class SignInAction {
                 'profile' => $profile
             ];
 
-            $response->getBody()->write(json_encode($res, JSON_PRETTY_PRINT));
 
-            return $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(200);
+            $view = Twig::fromRequest($request);
+            return $view->render($response, 'connected.twig', $res);
 
 
         }catch (\Exception $e){

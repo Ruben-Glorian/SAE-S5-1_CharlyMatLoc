@@ -9,6 +9,7 @@ use charlyMatLoc\src\api\actions\SignInAction;
 use charlyMatLoc\src\api\middlewares\CorsMiddleware;
 use charlyMatLoc\webui\actions\getCatalogueViewAction;
 use charlyMatLoc\webui\actions\SigninViewAction;
+use charlyMatLoc\webui\actions\ConnectedViewAction;
 
 return function(\Slim\App $app):\Slim\App {
 
@@ -17,6 +18,7 @@ return function(\Slim\App $app):\Slim\App {
 
     //Routes pour les twigs
     $app->get('/catalogue', getCatalogueViewAction::class);
+    $app->get('/connected', ConnectedViewAction::class);
 
     //Routes pour les api
     $app->get('/catalogue/api', getCatalogueAction::class);
