@@ -15,6 +15,7 @@ use charlyMatLoc\src\infrastructure\repositories\PDOAuthRepository;
 use charlyMatLoc\src\infrastructure\repositories\PDOCatalogueRepository;
 use charlyMatLoc\src\infrastructure\repositories\PDOPanierRepository;
 use charlyMatLoc\webui\actions\getCatalogueViewAction;
+use charlyMatLoc\webui\actions\ReservationsViewAction;
 
 return[
     'pdo' => function($container) {
@@ -44,6 +45,11 @@ return[
     ajoutPanierAction::class => function($container) {
         return new \charlyMatLoc\src\api\actions\ajoutPanierAction(
             $container->get(PanierRepositoryInterface::class)
+        );
+    },
+    ReservationsViewAction::class => function($container) {
+        return new ReservationsViewAction(
+            $container->get('pdo')
         );
     },
     AuthnProviderInterface::class => function ($container) {
