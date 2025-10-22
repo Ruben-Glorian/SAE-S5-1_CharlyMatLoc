@@ -8,11 +8,17 @@
         <link rel="stylesheet" href="../css/catalogue.css">
     </head>
     <body>
+        <div id="userInfoBar" style="background:#e3f2fd;color:#222;padding:8px 16px;display:none;"></div>
         <h1>Catalogue des outils</h1>
-        <button class="btn-nav" onclick="window.location.href='panier.html'" >Voir le panier</button>
+        <div style="margin-bottom: 16px;">
+            <button class="btn-nav" onclick="window.location.href='signin.html'">Connexion</button>
+            <button class="btn-nav" onclick="window.location.href='signup.html'">Inscription</button>
+            <button class="btn-nav" onclick="window.location.href='panier.html'">Voir le panier</button>
+        </div>
         <div class="catalogue" id="catalogue">
             <div id="loadingIndicator">Chargement de la page, veuillez patienter...</div>
         </div>
         <script src="../js/catalogue.js"></script>
+        <script src="../js/userinfo.js"></script>
     </body>
 </html>

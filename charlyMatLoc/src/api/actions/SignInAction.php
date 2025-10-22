@@ -39,11 +39,14 @@ class SignInAction {
                 'profile' => $profile
             ];
 
-
-            $view = Twig::fromRequest($request);
-            return $view->render($response, 'connected.twig', $res);
-
-
+            $contentType = $request->getHeaderLine('Content-Type');
+            if (str_contains($contentType, 'application/json')) {
+                $response->getBody()->write(json_encode($res, JSON_PRETTY_PRINT));
+                return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+            } else {
+                $view = \Slim\Views\Twig::fromRequest($request);
+                return $view->render($response, 'connected.twig', $res);
+            }
         }catch (\Exception $e){
             $response->getBody()->write($e->getMessage());
             return $response->withStatus(400);
@@ -51,6 +54,3 @@ class SignInAction {
 
     }
 }
-
-
-
