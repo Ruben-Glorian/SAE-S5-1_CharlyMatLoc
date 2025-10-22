@@ -27,15 +27,9 @@ class SignInAction {
             $credentials = new CredentialsDTO($data['email'], $data['password']);
             $resSignIn = $this->authnProvider->signin($credentials);
 
-            $authDTO = $resSignIn[0];
             $profile = $resSignIn[1];
-            $payload = [
-                'access_token'  => $authDTO->accesToken,
-                'refresh_token' => $authDTO->refreshToken,
-            ];
 
             $res = [
-                'payload' => $payload,
                 'profile' => $profile
             ];
 
