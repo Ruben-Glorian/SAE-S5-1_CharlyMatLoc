@@ -58,3 +58,13 @@ INSERT INTO images_outils (outil_id, url, description) VALUES
 (18, 'https://cdn.pixabay.com/photo/2019/12/25/14/46/carving-4718749_1280.jpg', 'Ciseau à bois'),
 (19, 'https://cdn.pixabay.com/photo/2017/04/11/16/07/spray-gun-2222038_1280.jpg', 'Pistolet à peinture électrique'),
 (20, 'https://images.ideoon.ch/images/product_images/popup_images/ch5701_31.jpg', 'Nettoyeur vapeur multifonction');
+
+
+INSERT INTO "users" ("id", "email", "password", "role") VALUES
+('d975aca7-50c5-3d16-b211-cf7d302cba50',	'Denis.Teixeira@hotmail.fr',	'$2y$12$V21Au2EuL6LY5EZX3hBBwe2ScZhK4VSeC5yP1jd0eqausdWeTg5oO',	1),
+('898ef62f-a482-3a35-a6f1-dffe4b7d9101',	'Marie.Guichard@sfr.fr',	'$2y$12$aH8JOrXoI1zXNUYvxb.rsOiLdvzMh8dr8kDaD611.sPQ.O8Lo/0Ui',	1),
+('5c4ee229-fae5-3223-b4af-74957f334b02',	'Claude.Langlois@hotmail.fr',	'$2y$12$KlrIYb9aiCcDh6L8nmlAp.3BamurpYqAWBKRE4RC17wkOdIVbWAyy',	1),
+('9bc3c6c2-8c38-3be6-8473-a2d8a7242a1d',	'Bertrand.Caron@yahoo.fr',	'$2y$12$IUnn5cIvf0sIWt.Vp5F8D.yx0DOWWcH/oTzbbJU6RWeWc50LXfc0y',	1),
+('2e1c1158-c565-3780-aeed-2845063e415c',	'Nol.Dias@free.fr',	'$2y$12$6yBqQKy7H7zYTwJcGaxH7.xW8GdFyt0j9otR357upAtFBS86E11JG',	10),
+('d6021537-72b7-3289-bfe7-efa9b4281b73',	'Gilbert.Bertrand@club-internet.fr',	'$2y$12$mI2fibyNiDgs3ZOoxnlzmu7IuZd9wwBGkKKwL/ZpKZMM4daEJLfOG',	10),
+('1e67bfd0-fd1a-362a-be57-6b212c76cfb6',	'dith.Didier@club-internet.fr',	'$2y$12$4I8islmimTjnqLvqPWtn6eS.R0TT/ABw8Icndc.iAMex96s61ucWK',	10);
