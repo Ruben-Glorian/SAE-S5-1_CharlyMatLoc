@@ -8,6 +8,4 @@ class CredentialsDTO{
         public  string $email,
         public  string $password
     ){}
-
-
 }

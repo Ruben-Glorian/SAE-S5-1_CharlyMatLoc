@@ -40,14 +40,13 @@ class AuthMiddleware
         }
 
 
-        // Créer le profil à partir du token
+        //Créé le profil à partir du token
         $profile = new ProfileDTO(
             id: $payload->sub,
             email: $payload->data->user,
-            role: $payload->data->role
         );
 
-        // Ajouter le profil dans la requête pour l'action suivante
+        //Ajoute le profil dans la requête pour l'action suivante
         $request = $request->withAttribute('profile', $profile);
 
         return $handler->handle($request);
