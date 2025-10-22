@@ -8,6 +8,7 @@ use charlyMatLoc\src\api\actions\getPanierAction;
 use charlyMatLoc\src\api\actions\SignInAction;
 use charlyMatLoc\src\api\middlewares\CorsMiddleware;
 use charlyMatLoc\webui\actions\getCatalogueViewAction;
+use charlyMatLoc\webui\actions\SigninViewAction;
 
 return function(\Slim\App $app):\Slim\App {
 
@@ -30,7 +31,8 @@ return function(\Slim\App $app):\Slim\App {
     $app->post('/api/panier/ajouter', ajoutPanierAction::class);
 
     //Routes pour la connexion
-    $app->post('/signin', SignInAction::class)->setName('signin');
+    $app->get('/signin', SigninViewAction::class);
+    $app->post('/signin', SignInAction::class);
 
     return $app;
 };

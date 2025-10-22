@@ -5,6 +5,10 @@ use charlyMatLoc\src\api\actions\getDetailsOutilsAction;
 use charlyMatLoc\src\api\actions\getPanierAction;
 use charlyMatLoc\src\api\actions\ajoutPanierAction;
 use charlyMatLoc\src\api\actions\SignInAction;
+use charlyMatLoc\src\api\providers\AuthnProviderInterface;
+use charlyMatLoc\src\api\providers\JWTAuthnProvider;
+use charlyMatLoc\src\api\providers\JWTManager;
+use charlyMatLoc\src\application_core\application\usecases\ServiceUser;
 use charlyMatLoc\src\application_core\application\ports\spi\AuthRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\CatalogueRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\PanierRepositoryInterface;
@@ -44,12 +48,22 @@ return[
             $container->get(PanierRepositoryInterface::class)
         );
     },
+    // SignInAction doit recevoir un AuthnProviderInterface
     SignInAction::class => function ($container) {
         return new SignInAction(
-            $container->get(PanierRepositoryInterface::class)
+            $container->get(AuthnProviderInterface::class)
         );
     },
     AuthRepositoryInterface::class => function ($container) {
         return new PDOAuthRepository($container->get('pdo'));
+    },
+
+    // Binding minimal pour AuthnProviderInterface : utiliser JWTAuthnProvider
+    AuthnProviderInterface::class => function($container) {
+        // construit un JWTManager basique (clé codée en dur ici pour ne pas modifier settings.php)
+        $jwtManager = new JWTManager('change_this_secret_key', 'HS256');
+        // construit ServiceUser à partir du repository déjà lié
+        $serviceUser = new ServiceUser($container->get(AuthRepositoryInterface::class));
+        return new JWTAuthnProvider($jwtManager, $serviceUser);
     }
 ];
