@@ -1,11 +1,12 @@
 <?php
-namespace toubilib\infra\repositories;
 
-use charlyMatLoc\src\application_core\application\ports\spi\repositoryInterfaces\AuthRepositoryInterface;
-use charlyMatLoc\src\application_core\application\ports\api\CredentialsDTO;
+namespace charlyMatLoc\src\infrastructure\repositories;
+
+use charlyMatLoc\src\application_core\application\ports\spi\AuthRepositoryInterface;
+use charlyMatLoc\src\application_core\application\ports\api\dtos\CredentialsDTO;
 use charlyMatLoc\src\application_core\domain\entities\User;
 
-class PDOAuthReposiroty implements AuthRepositoryInterface {
+class PDOAuthRepository implements AuthRepositoryInterface {
     private \PDO $pdo;
 
     public function __construct(\PDO $pdo) {
