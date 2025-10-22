@@ -26,13 +26,17 @@ class JWTAuthnProvider implements AuthnProviderInterface{
             'exp' => time()+3600,
             'sub' => $user->id,
             'data' => [
-                'role' => $user->role,
                 'user' => $user->email
             ]
         ];
         $accessToken  = $this->JWTManager->createAccesToken($payload);
         $refreshToken = $this->JWTManager->createRefreshToken($payload);
 
-        return [new AuthDTO($accessToken, $refreshToken), new ProfileDTO($user->id,$user->email,$user->role)];
+        return [new AuthDTO($accessToken, $refreshToken), new ProfileDTO($user->id,$user->email)];
+    }
+    public function register(CredentialsDTO $credentials): ProfileDTO
+    {
+        $user = $this->serviceUser->register($credentials);
+        return new ProfileDTO($user->getId(), $user->getEmail());
     }
 }

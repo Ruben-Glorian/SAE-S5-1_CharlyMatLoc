@@ -30,6 +30,9 @@ return function(\Slim\App $app):\Slim\App {
     //Routes pour ajouter un outil au panier
     $app->post('/api/panier/ajouter', ajoutPanierAction::class);
 
+    //Route pour s'inscrire
+    $app->post('/signup', SignInAction::class)->setName('signup');
+
     //Routes pour la connexion
     $app->get('/signin', SigninViewAction::class);
     $app->post('/signin', SignInAction::class);

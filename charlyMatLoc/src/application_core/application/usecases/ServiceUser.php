@@ -17,16 +17,15 @@ class ServiceUser implements ServiceUserInterface {
         $this->userRepository = $userRepository;
     }
 
-    public function register(CredentialsDTO $credentials, int $role): ProfileDTO
+    public function register(CredentialsDTO $credentials): ProfileDTO
     {
 
-        $this->userRepository->save($credentials, $role);
+        $this->userRepository->save($credentials);
         $user = $this->userRepository->findByEmail($credentials->email);
 
         return new ProfileDTO(
             $user->getId(),
-            $user->getEmail(),
-            $user->getRole()
+            $user->getEmail()
         );
     }
 
@@ -42,8 +41,7 @@ class ServiceUser implements ServiceUserInterface {
 
         return new ProfileDTO(
             $user->getId(),
-            $user->getEmail(),
-            $user->getRole()
+            $user->getEmail()
         );
     }
 }

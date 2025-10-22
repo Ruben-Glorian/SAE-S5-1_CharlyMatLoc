@@ -11,6 +11,9 @@ return [
             'user' => 'admin',
             'password' => 'admin',
         ],
+        'jwt' => [
+            'key' => 'clef'
+        ],
         'displayErrorDetails' => true,
     ],
 ];

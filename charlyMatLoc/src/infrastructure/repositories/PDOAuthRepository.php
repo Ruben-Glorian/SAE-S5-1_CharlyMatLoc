@@ -25,18 +25,16 @@ class PDOAuthRepository implements AuthRepositoryInterface {
         return new User(
             id: $row['id'],
             email: $row['email'],
-            password: $row['password'],
-            role: $row['role']
+            password: $row['password']
         );
     }
 
-    public function save(CredentialsDTO $dto, int $role):void {
+    public function save(CredentialsDTO $dto):void {
         $passwordhash = password_hash($dto->password, PASSWORD_BCRYPT);
-        $sql = "INSERT INTO users (email, password, role) VALUES (:email, :password, :role)";
+        $sql = "INSERT INTO users (email, password) VALUES (:email, :password)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':email', $dto->email);
         $stmt->bindParam(':password', $passwordhash);
-        $stmt->bindParam(':role', $role);
         $stmt->execute();
     }
 
@@ -51,8 +49,7 @@ class PDOAuthRepository implements AuthRepositoryInterface {
         return new User(
             id: $row['id'],
             email: $row['email'],
-            password: $row['password'],
-            role: $row['role']
+            password: $row['password']
         );
 
     }

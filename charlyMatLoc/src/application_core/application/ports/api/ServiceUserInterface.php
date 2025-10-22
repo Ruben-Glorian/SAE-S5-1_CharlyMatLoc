@@ -7,6 +7,6 @@ use charlyMatLoc\src\application_core\application\ports\api\dtos\ProfileDTO;
 
 interface ServiceUserInterface{
 
-    public function register(CredentialsDTO $credentials, int $role): ProfileDTO;
+    public function register(CredentialsDTO $credentials): ProfileDTO;
     public function byCredentials(CredentialsDTO $credentials): ?ProfileDTO;
 }

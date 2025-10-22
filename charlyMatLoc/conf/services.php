@@ -9,6 +9,7 @@ use charlyMatLoc\src\api\providers\AuthnProviderInterface;
 use charlyMatLoc\src\api\providers\JWTAuthnProvider;
 use charlyMatLoc\src\api\providers\JWTManager;
 use charlyMatLoc\src\application_core\application\usecases\ServiceUser;
+use charlyMatLoc\src\api\actions\SignUpAction;
 use charlyMatLoc\src\application_core\application\ports\spi\AuthRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\CatalogueRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\PanierRepositoryInterface;
@@ -49,6 +50,12 @@ return[
         );
     },
     // SignInAction doit recevoir un AuthnProviderInterface
+    AuthnProviderInterface::class => function ($container) {
+        return new \charlyMatLoc\src\api\providers\JWTAuthnProvider(
+            $container->get('JWTManager'),
+            $container->get('ServiceUser')
+        );
+    },
     SignInAction::class => function ($container) {
         return new SignInAction(
             $container->get(AuthnProviderInterface::class)
@@ -65,5 +72,19 @@ return[
         // construit ServiceUser à partir du repository déjà lié
         $serviceUser = new ServiceUser($container->get(AuthRepositoryInterface::class));
         return new JWTAuthnProvider($jwtManager, $serviceUser);
-    }
+    },
+    SignUpAction::class => function ($container) {
+        return new SignUpAction(
+            $container->get(AuthRepositoryInterface::class)
+        );
+    },
+    'JWTManager' => function($container) {
+        $jwtKey = $container->get('settings')['jwt']['key'];
+        return new \charlyMatLoc\src\api\providers\JWTManager($jwtKey);
+    },
+    'ServiceUser' => function($container) {
+        return new \charlyMatLoc\src\application_core\application\usecases\ServiceUser(
+            $container->get(AuthRepositoryInterface::class)
+        );
+    },
 ];
