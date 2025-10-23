@@ -10,16 +10,14 @@ document.getElementById('signinForm').addEventListener('submit', async function(
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         });
-        if (!res.ok) {
-            const err = await res.text();
-            errorDiv.textContent = err;
+        const data = await res.json();
+        if (!res.ok || data.error) {
+            errorDiv.textContent = data.error || 'Erreur de connexion.';
             return;
         }
-        const data = await res.json();
-        //stock le token dans le localStorage pour le panier utilisateur
-        localStorage.setItem('access_token', data.payload.access_token);
+        //stock l'email utilisateur pour le panier utilisateur
         localStorage.setItem('user_email', data.profile.email);
-        //redirige vers le catalogue ou le panier
+        //redirige vers le catalogue
         window.location.href = 'catalogue.html';
     } catch (err) {
         errorDiv.textContent = 'Erreur de connexion.';
