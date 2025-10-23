@@ -1,5 +1,5 @@
 //recup le catalogue d'outils depuis l'api et affiche dynamiquement les cartes outils
-fetch('/catalogue/api')
+fetch('/api/outils')
     .then(res => res.json())
     .then(data => {
         //selectionne le conteneur du catalogue
@@ -55,7 +55,7 @@ fetch('/catalogue/api')
                     window.location.href = 'signin.html';
                     return;
                 }
-                fetch('/api/panier/ajouter', {
+                fetch('/api/panier', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

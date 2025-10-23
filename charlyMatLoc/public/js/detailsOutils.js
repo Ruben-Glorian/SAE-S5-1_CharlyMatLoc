@@ -6,7 +6,7 @@ function afficherDetailsOutil() {
         detailsDiv.innerHTML = '<p>Aucun détail trouvé pour cet outil.</p>';
         return;
     }
-    fetch(`/outils/${id}`)
+    fetch(`/api/outils/${id}`)
         .then(res => res.ok ? res.json() : null)
         .then(outil => {
             if (!outil) {

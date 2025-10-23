@@ -1,5 +1,5 @@
 //Recup le panier depuis l'api et affiche dynamiquement les cartes outils
-fetch('/panier/api')
+fetch('/api/panier')
     .then(res => res.json())
     .then(data => {
         //selectionne le conteneur du panier
