@@ -16,9 +16,12 @@ function loadPanier() {
         //selectionne le conteneur du panier
         const panierDiv = document.getElementById('panier');
         const totalDiv = document.getElementById('total');
+        const validateBtn = document.getElementById('valider_panier');
+        const messageDiv = document.getElementById('panier-message');
         //vide le conteneur avant d'ajouter les nouveaux elems
         panierDiv.innerHTML = '';
-        // Utilise le tableau d'outils retourné par l'API
+        messageDiv.textContent = '';
+        //Utilise le tableau d'outils retourné par l'API
         const outils = data.panier || [];
         if (outils.length === 0) {
             const empty = document.createElement('p');
@@ -26,6 +29,8 @@ function loadPanier() {
             empty.textContent = 'Votre panier est vide.';
             panierDiv.appendChild(empty);
             totalDiv.textContent = '';
+            // masquer le bouton valider
+            validateBtn.style.display = 'none';
             return;
         }
         //crée une carte et l'ajoute au panier pour chaque outil du panier
@@ -60,8 +65,49 @@ function loadPanier() {
             panierDiv.appendChild(card);        });
         //total du panier
         totalDiv.textContent = `Montant total : ${data.total.toFixed(2)} €`;
+        //Afficher le Bouton valider
+        validateBtn.style.display = 'inline-block';
+    }).catch(err => {
+        console.error('Erreur chargement panier', err);
     });
 }
 
-// Charger le panier au chargement de la page
-loadPanier();
+//Handler pour valider le panier
+function validatePanier() {
+    const token = localStorage.getItem('access_token');
+    const messageDiv = document.getElementById('panier-message');
+    if (!token) {
+        window.location.href = 'signin.html';
+        return;
+    }
+    messageDiv.textContent = 'Validation en cours...';
+    fetch('/api/panier/valider', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        }
+    }).then(async res => {
+        const body = await res.json().catch(() => ({}));
+        if (res.ok) {
+            messageDiv.textContent = body.message || 'Panier validé.';
+            //Recharger le panier lorsqu'il est validé
+            loadPanier();
+        } else {
+            messageDiv.textContent = body.error || `Erreur serveur (${res.status})`;
+        }
+    }).catch(err => {
+        console.error('Erreur lors de la validation', err);
+        messageDiv.textContent = 'Erreur réseau lors de la validation.';
+    });
+}
+
+//Initialiser au chargement de la page
+window.addEventListener('DOMContentLoaded', () => {
+    loadPanier();
+    const validateBtn = document.getElementById('valider_panier');
+    validateBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        validatePanier();
+    });
+});
