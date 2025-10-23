@@ -73,6 +73,23 @@ h1 {
     background: #1565c0;
 }
 
+#signupForm, #signinForm {
+    max-width: 500px;
+    margin: 32px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 32px 24px;
+    text-align: center;
+    grid-column: 1 / calc($nbColGril + 1);
+    text-align: center;
+}
+
+p {
+    grid-column: 1 / calc($nbColGril + 1);
+    text-align: center;
+}
+
 @media only screen and (min-width: 493px) {
     $nbColGril: 3;
     $lgCol: math.div((100% - ($nbColGril + 1) * $lgGout), $nbColGril);
@@ -92,7 +109,17 @@ h1 {
     }
 
     .btn-nav {
-        grid-column: calc($nbColGril);
+        grid-column: calc($nbColGril) / calc($nbColGril + 2);
+    }
+
+    #signupForm, #signinForm {
+        grid-column: 1 / calc($nbColGril + 1);
+        grid-row: 2;
+    }
+
+    p {
+        grid-column: 1 / calc($nbColGril + 1);
+        grid-row: 3;
     }
 }
 
@@ -118,6 +145,14 @@ h1 {
         grid-column: calc($nbColGril) / calc($nbColGril + 2);
         margin-right: 5%;
     }
+
+    #signupForm, #signinForm {
+        grid-column: 2 / calc($nbColGril + 1);
+    }
+
+    p {
+        grid-column: 2 / calc($nbColGril + 1);
+    }
 }
 
 @media only screen and (min-width: 793px) {
@@ -141,6 +176,14 @@ h1 {
     .btn-nav {
         grid-column: calc($nbColGril) / calc($nbColGril + 2);
     }
+
+    #signupForm, #signinForm {
+        grid-column: 3 / calc($nbColGril);
+    }
+
+    p {
+        grid-column: 3 / calc($nbColGril);
+    }
 }
 
 @media only screen and (min-width: 1024px) {
@@ -162,5 +205,13 @@ h1 {
 
     .btn-nav {
         grid-column: calc($nbColGril) / calc($nbColGril + 2);
+    }
+
+    #signupForm, #signinForm {
+        grid-column: 3 / calc($nbColGril);
+    }
+
+    p {
+        grid-column: 3 / calc($nbColGril);
     }
 }

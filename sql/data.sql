@@ -13,7 +13,8 @@ INSERT INTO outils (nom, description, categorie_id, tarif) VALUES
 ('Tournevis électrique', 'Tournevis rechargeable avec embouts', 1, 10.00),
 ('Scie sauteuse', 'Scie sauteuse électrique', 2, 12.50),
 ('Ponceuse orbitale', 'Ponceuse pour bois et surfaces planes', 2, 14.00),
-('Peinture blanche', 'Seau de peinture 10L', 3, 8.00),                                                               ('Rouleau de peinture', 'Rouleau professionnel avec manche télescopique', 3, 5.00),
+('Peinture blanche', 'Seau de peinture 10L', 3, 8.00),
+('Rouleau de peinture', 'Rouleau professionnel avec manche télescopique', 3, 5.00),
 ('Aspirateur', 'Aspirateur industriel', 4, 20.00),
 ('Nettoyeur haute pression', 'Nettoyeur pour terrasse et façade', 4, 25.00),
 ('Tondeuse', 'Tondeuse thermique', 5, 30.00),
@@ -28,14 +29,6 @@ INSERT INTO outils (nom, description, categorie_id, tarif) VALUES
 ('Ciseau à bois', 'Ciseau de précision pour bois', 2, 6.50),
 ('Pistolet à peinture', 'Pistolet pulvérisateur 500W', 3, 18.00),
 ('Nettoyeur vapeur', 'Nettoyeur vapeur multifonction', 4, 22.50);
-
-INSERT INTO panier (outil_id, date_location) VALUES
-(1, '2025-10-21'),
-(12, '2025-10-22'),
-(3, '2025-10-22'),
-(14, '2025-10-23'),
-(5, '2025-10-25'),
-(16, '2025-10-25');
 
 INSERT INTO images_outils (outil_id, url, description) VALUES
 (1, 'https://cdn.pixabay.com/photo/2015/11/11/12/27/drill-1038543_1280.jpg', 'Perceuse vue de face'),
