@@ -14,8 +14,6 @@ use charlyMatLoc\src\application_core\application\ports\spi\PanierRepositoryInte
 use charlyMatLoc\src\infrastructure\repositories\PDOAuthRepository;
 use charlyMatLoc\src\infrastructure\repositories\PDOCatalogueRepository;
 use charlyMatLoc\src\infrastructure\repositories\PDOPanierRepository;
-use charlyMatLoc\webui\actions\getCatalogueViewAction;
-use charlyMatLoc\webui\actions\ReservationsViewAction;
 
 return[
     'pdo' => function($container) {
@@ -28,28 +26,25 @@ return[
     getCatalogueAction::class => function($container) {
         return new getCatalogueAction($container->get(CatalogueRepositoryInterface::class));
     },
-    getDetailsOutilsAction::class => function ($container) {
-        return new getDetailsOutilsAction($container->get(CatalogueRepositoryInterface::class));
-    },
-    getCatalogueViewAction::class => function($container) {
-        return new getCatalogueViewAction(
-            $container->get(CatalogueRepositoryInterface::class)
+
+    \charlyMatLoc\src\api\actions\GetDetailsOutilsAction::class => function ($container) {
+        return new \charlyMatLoc\src\api\actions\GetDetailsOutilsAction(
+            $container->get(\charlyMatLoc\src\application_core\application\ports\spi\CatalogueRepositoryInterface::class)
         );
     },
     PanierRepositoryInterface::class => function($container) {
         return new PDOPanierRepository($container->get('pdo'));
     },
     getPanierAction::class => function ($container) {
-        return new getPanierAction($container->get(PanierRepositoryInterface::class));
+        return new getPanierAction(
+            $container->get(PanierRepositoryInterface::class),
+            $container->get('JWTManager')
+        );
     },
     ajoutPanierAction::class => function($container) {
         return new \charlyMatLoc\src\api\actions\ajoutPanierAction(
-            $container->get(PanierRepositoryInterface::class)
-        );
-    },
-    ReservationsViewAction::class => function($container) {
-        return new ReservationsViewAction(
-            $container->get('pdo')
+            $container->get(PanierRepositoryInterface::class),
+            $container->get('JWTManager')
         );
     },
     AuthnProviderInterface::class => function ($container) {

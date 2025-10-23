@@ -25,9 +25,6 @@ $app->addErrorMiddleware($c->get('settings')['displayErrorDetails'], false, fals
     ->forceContentType('application/json')
 ;
 $app->add(new CorsMiddleware());
-
-$twig = Twig::create(__DIR__ . '/../webui/views', ['cache' => false]);
-$app->add(TwigMiddleware::create($app, $twig));
 $app = (require_once __DIR__ . '/routes.php')($app);
 
 return $app;
