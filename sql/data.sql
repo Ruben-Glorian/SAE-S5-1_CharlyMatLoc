@@ -29,14 +29,6 @@ INSERT INTO outils (nom, description, categorie_id, tarif) VALUES
 ('Pistolet à peinture', 'Pistolet pulvérisateur 500W', 3, 18.00),
 ('Nettoyeur vapeur', 'Nettoyeur vapeur multifonction', 4, 22.50);
 
-INSERT INTO panier (outil_id, date_location) VALUES
-(1, '2025-10-21'),
-(12, '2025-10-22'),
-(3, '2025-10-22'),
-(14, '2025-10-23'),
-(5, '2025-10-25'),
-(16, '2025-10-25');
-
 INSERT INTO images_outils (outil_id, url, description) VALUES
 (1, 'https://cdn.pixabay.com/photo/2015/11/11/12/27/drill-1038543_1280.jpg', 'Perceuse vue de face'),
 (2, 'https://cdn.pixabay.com/photo/2020/05/07/11/58/black-5141245_1280.jpg', 'Tournevis électrique'),
