@@ -2,14 +2,14 @@
     margin-top: 24px;
     font-size: 1.2em;
     font-weight: bold;
-    text-align: right;
+    text-align: center;
     grid-column: 2;
 
     @media only screen and (min-width: 493px) {
-        grid-column: 5;
+        grid-column: 4 / 6;
     }
 
     @media only screen and (min-width: 493px) {
-        grid-column: 7;
+        grid-column: 6 / 8;
     }
 }
