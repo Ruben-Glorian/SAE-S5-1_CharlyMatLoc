@@ -9,13 +9,15 @@ document.getElementById('signinForm').addEventListener('submit', async function(
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
-        });
-        const data = await res.json();
+        });        const data = await res.json();
+        console.log('Réponse de connexion:', data); // Debug
         if (!res.ok || data.error) {
             errorDiv.textContent = data.error || 'Erreur de connexion.';
             return;
         }
-        //stock l'email utilisateur pour le panier utilisateur
+        //stock le token JWT et l'email utilisateur
+        console.log('Token reçu:', data.token); // Debug
+        localStorage.setItem('access_token', data.token);
         localStorage.setItem('user_email', data.profile.email);
         //redirige vers le catalogue
         window.location.href = 'catalogue.html';

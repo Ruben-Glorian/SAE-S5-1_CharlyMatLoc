@@ -54,10 +54,14 @@ INSERT INTO images_outils (outil_id, url, description) VALUES
 
 
 INSERT INTO "users" ("id", "email", "password") VALUES
-('d975aca7-50c5-3d16-b211-cf7d302cba50',	'Denis.Teixeira@hotmail.fr',	'$2y$12$V21Au2EuL6LY5EZX3hBBwe2ScZhK4VSeC5yP1jd0eqausdWeTg5oO'),
-('898ef62f-a482-3a35-a6f1-dffe4b7d9101',	'Marie.Guichard@sfr.fr',	'$2y$12$aH8JOrXoI1zXNUYvxb.rsOiLdvzMh8dr8kDaD611.sPQ.O8Lo/0Ui'),
-('5c4ee229-fae5-3223-b4af-74957f334b02',	'Claude.Langlois@hotmail.fr',	'$2y$12$KlrIYb9aiCcDh6L8nmlAp.3BamurpYqAWBKRE4RC17wkOdIVbWAyy'),
-('9bc3c6c2-8c38-3be6-8473-a2d8a7242a1d',	'Bertrand.Caron@yahoo.fr',	'$2y$12$IUnn5cIvf0sIWt.Vp5F8D.yx0DOWWcH/oTzbbJU6RWeWc50LXfc0y'),
-('2e1c1158-c565-3780-aeed-2845063e415c',	'Nol.Dias@free.fr',	'$2y$12$6yBqQKy7H7zYTwJcGaxH7.xW8GdFyt0j9otR357upAtFBS86E11JG'),
-('d6021537-72b7-3289-bfe7-efa9b4281b73',	'Gilbert.Bertrand@club-internet.fr',	'$2y$12$mI2fibyNiDgs3ZOoxnlzmu7IuZd9wwBGkKKwL/ZpKZMM4daEJLfOG'),
-('1e67bfd0-fd1a-362a-be57-6b212c76cfb6',	'dith.Didier@club-internet.fr',	'$2y$12$4I8islmimTjnqLvqPWtn6eS.R0TT/ABw8Icndc.iAMex96s61ucWK');
+('d975aca7-50c5-3d16-b211-cf7d302cba50','Denis.Teixeira@hotmail.fr','$2y$12$V21Au2EuL6LY5EZX3hBBwe2ScZhK4VSeC5yP1jd0eqausdWeTg5oO'),
+('898ef62f-a482-3a35-a6f1-dffe4b7d9101','Marie.Guichard@sfr.fr','$2y$12$aH8JOrXoI1zXNUYvxb.rsOiLdvzMh8dr8kDaD611.sPQ.O8Lo/0Ui'),
+('5c4ee229-fae5-3223-b4af-74957f334b02','Claude.Langlois@hotmail.fr','$2y$12$KlrIYb9aiCcDh6L8nmlAp.3BamurpYqAWBKRE4RC17wkOdIVbWAyy'),
+('9bc3c6c2-8c38-3be6-8473-a2d8a7242a1d','Bertrand.Caron@yahoo.fr','$2y$12$IUnn5cIvf0sIWt.Vp5F8D.yx0DOWWcH/oTzbbJU6RWeWc50LXfc0y'),
+('2e1c1158-c565-3780-aeed-2845063e415c','Nol.Dias@free.fr','$2y$12$6yBqQKy7H7zYTwJcGaxH7.xW8GdFyt0j9otR357upAtFBS86E11JG'),
+('d6021537-72b7-3289-bfe7-efa9b4281b73','Gilbert.Bertrand@club-internet.fr','$2y$12$mI2fibyNiDgs3ZOoxnlzmu7IuZd9wwBGkKKwL/ZpKZMM4daEJLfOG'),
+('1e67bfd0-fd1a-362a-be57-6b212c76cfb6','dith.Didier@club-internet.fr','$2y$12$4I8islmimTjnqLvqPWtn6eS.R0TT/ABw8Icndc.iAMex96s61ucWK'),
+('c21125354f6647848fb43972ad0ab0f8','test@exemple.com','$2y$12$FACjH48QfQTCquWUZ0z9Ue5dtzkucekPOzCsYkxPrY3rq47/7U3ia'),
+('4b9a8effef20ab7742f2d07fb29b32b7','test2@exemple.com','$2y$12$xFJJamWjwG/gdS0Yhppxke5WGYhytd1425IBz.KvDvNb2nbv.9SlK'),
+('3de68788bff15d8802b715ee763aeb0c','test3@exemple.com','$2y$12$ABMYZjny6g9lIeh8oYcb.O3/lofyLCi2u9i/wiczmPX0c5r14sO2q'),
+('4bc1901a9efca761b4a87f721bae7d33','test4@exemple.com','$2y$12$D9WNSaaz8vgr/vNpIkdHguebBBC2BQ8O6SALetbG/DRYP6qDxgiDa');

@@ -1,6 +1,17 @@
 //Recup le panier depuis l'api et affiche dynamiquement les cartes outils
-fetch('/api/panier')
-    .then(res => res.json())
+function loadPanier() {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+        window.location.href = 'signin.html';
+        return;
+    }
+
+    fetch('/api/panier', {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(res => res.json())
     .then(data => {
         //selectionne le conteneur du panier
         const panierDiv = document.getElementById('panier');
@@ -46,8 +57,11 @@ fetch('/api/panier')
             tarif.textContent = `${outil.tarif} €`;
             card.appendChild(tarif);
 
-            panierDiv.appendChild(card);
-        });
+            panierDiv.appendChild(card);        });
         //total du panier
         totalDiv.textContent = `Montant total : ${data.total.toFixed(2)} €`;
     });
+}
+
+// Charger le panier au chargement de la page
+loadPanier();

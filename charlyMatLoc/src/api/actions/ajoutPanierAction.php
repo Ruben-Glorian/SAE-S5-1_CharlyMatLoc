@@ -21,18 +21,21 @@ class ajoutPanierAction extends AbstractAction {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
         $data = $request->getParsedBody();
         $outil_id = $data['outil_id'] ?? null;
-        $date_location = $data['date'] ?? null;
-        $authHeader = $request->getHeaderLine('Authorization');
+        $date_location = $data['date'] ?? null;        $authHeader = $request->getHeaderLine('Authorization');
+        error_log('Header Authorization reçu: ' . $authHeader); // Debug
         if (!preg_match('/Bearer (.+)/', $authHeader, $matches)) {
             $response->getBody()->write(json_encode(['error' => 'Authentification requise.']));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(401);
         }
         $token = $matches[1];
+        error_log('Token extrait: ' . $token); // Debug
         try {
             $payload = $this->jwtManager->decodeToken($token);
             $user_id = $payload['sub'] ?? null;
+            error_log('User ID décodé: ' . $user_id); // Debug
         } catch (\Exception $e) {
-            $response->getBody()->write(json_encode(['error' => 'Token invalide.']));
+            error_log('Erreur décodage token: ' . $e->getMessage()); // Debug
+            $response->getBody()->write(json_encode(['error' => 'Token invalide: ' . $e->getMessage()]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(401);
         }
         if (!$outil_id || !$date_location || !$user_id) {

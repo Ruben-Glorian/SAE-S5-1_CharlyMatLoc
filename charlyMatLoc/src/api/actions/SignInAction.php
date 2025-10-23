@@ -24,12 +24,13 @@ class SignInAction {
             if (($email==='') OR ($password==='')){
                 throw new \Exception("Email ou mot de passe non fourni");
             }
-            $credentials = new CredentialsDTO($data['email'], $data['password']);
-            $resSignIn = $this->authnProvider->signin($credentials);
+            $credentials = new CredentialsDTO($data['email'], $data['password']);            $resSignIn = $this->authnProvider->signin($credentials);
 
+            $authDTO = $resSignIn[0];
             $profile = $resSignIn[1];
 
             $res = [
+                'token' => $authDTO->accesToken,
                 'profile' => $profile
             ];
 
