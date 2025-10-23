@@ -4,6 +4,7 @@ use charlyMatLoc\src\api\actions\getCatalogueAction;
 use charlyMatLoc\src\api\actions\getDetailsOutilsAction;
 use charlyMatLoc\src\api\actions\getPanierAction;
 use charlyMatLoc\src\api\actions\ajoutPanierAction;
+use charlyMatLoc\src\api\actions\ajoutReservationAction;
 use charlyMatLoc\src\api\actions\SignInAction;
 use charlyMatLoc\src\api\providers\AuthnProviderInterface;
 use charlyMatLoc\src\api\providers\JWTAuthnProvider;
@@ -44,6 +45,13 @@ return[
     ajoutPanierAction::class => function($container) {
         return new \charlyMatLoc\src\api\actions\ajoutPanierAction(
             $container->get(PanierRepositoryInterface::class),
+            $container->get('JWTManager')
+        );
+    },
+    ajoutReservationAction::class => function($container) {
+        return new \charlyMatLoc\src\api\actions\ajoutReservationAction(
+            $container->get(PanierRepositoryInterface::class),
+            $container->get('pdo'),
             $container->get('JWTManager')
         );
     },
