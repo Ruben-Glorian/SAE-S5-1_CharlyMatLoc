@@ -11,12 +11,14 @@ class PDOPanierRepository implements PanierRepositoryInterface{
         $this->pdo = $pdo;
     }
 
-    public function listerPanier(): array{
+    public function listerPanier(string $userId): array{
         $sql = "SELECT p.id, p.outil_id, p.date_location, p.date_ajout, o.nom, o.tarif, i.url AS image_url
                 FROM panier p
                 JOIN outils o ON p.outil_id = o.id
-                LEFT JOIN images_outils i ON o.id = i.outil_id";
+                LEFT JOIN images_outils i ON o.id = i.outil_id
+                WHERE p.user_id = :user_id";
         $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':user_id', $userId, \PDO::PARAM_STR);
         $stmt->execute();
         $items = [];
         $total = 0.0;
@@ -37,15 +39,16 @@ class PDOPanierRepository implements PanierRepositoryInterface{
             'total' => $total
         ];
     }
-    public function ajouterOutil(int $idOutil, string $date): void{
-        $sql = "INSERT INTO panier (outil_id, date_location, date_ajout) VALUES (:outil_id, :date_location, NOW())";
+    public function ajouterOutil(int $idOutil, string $date, string $userId): void{
+        $sql = "INSERT INTO panier (outil_id, user_id, date_location, date_ajout) VALUES (:outil_id, :user_id, :date_location, NOW())";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':outil_id', $idOutil, \PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $userId, \PDO::PARAM_STR);
         $stmt->bindParam(':date_location', $date, \PDO::PARAM_STR);
         $stmt->execute();
     }
-    public function verifDoublons(int $idOutil, string $date): bool {
-        $panier = $this->listerPanier();
+    public function verifDoublons(int $idOutil, string $date, string $userId): bool {
+        $panier = $this->listerPanier($userId);
         foreach ($panier['items'] as $item) {
             if ($item['outil_id'] == $idOutil && $item['date_location'] == $date) {
                 return true;

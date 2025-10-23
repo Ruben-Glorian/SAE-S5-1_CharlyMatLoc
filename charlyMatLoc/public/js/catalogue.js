@@ -50,17 +50,25 @@ fetch('/catalogue/api')
                     alert('Veuillez choisir une date');
                     return;
                 }
+                const token = localStorage.getItem('access_token');
+                if (!token) {
+                    window.location.href = 'signin.html';
+                    return;
+                }
                 fetch('/api/panier/ajouter', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
                     body: JSON.stringify({ outil_id: outil.id, date: date })
                 })
                 .then(res => res.json())
                 .then(result => {
-                    if (result.success) {
+                    if (result.message) {
                         alert('Outil ajouté au panier !');
                     } else {
-                        alert(result.message || 'Erreur lors de l\'ajout au panier');
+                        alert(result.error || 'Erreur lors de l\'ajout au panier');
                     }
                 })
                 .catch(() => alert('Erreur réseau'));

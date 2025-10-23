@@ -32,8 +32,10 @@ class PDOAuthRepository implements AuthRepositoryInterface {
 
     public function save(CredentialsDTO $dto):void {
         $passwordhash = password_hash($dto->password, PASSWORD_BCRYPT);
-        $sql = "INSERT INTO users (email, password) VALUES (:email, :password)";
+        $uuid = bin2hex(random_bytes(16)); // Génère un UUID simple
+        $sql = "INSERT INTO users (id, email, password) VALUES (:id, :email, :password)";
         $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $uuid);
         $stmt->bindParam(':email', $dto->email);
         $stmt->bindParam(':password', $passwordhash);
         $stmt->execute();
@@ -54,5 +56,17 @@ class PDOAuthRepository implements AuthRepositoryInterface {
             password: $row['password']
         );
 
+    }
+
+    public function register($credentials) {
+        $uuid = bin2hex(random_bytes(16)); // Génère un UUID simple
+        $passwordhash = password_hash($credentials->password, PASSWORD_BCRYPT);
+        $sql = "INSERT INTO users (id, email, password) VALUES (:id, :email, :password)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $uuid, \PDO::PARAM_STR);
+        $stmt->bindParam(':email', $credentials->email, \PDO::PARAM_STR);
+        $stmt->bindParam(':password', $passwordhash, \PDO::PARAM_STR);
+        $stmt->execute();
+        // ...retourne le profil ou autre logique...
     }
 }

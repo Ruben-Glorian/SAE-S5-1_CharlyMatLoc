@@ -22,10 +22,20 @@ url VARCHAR(255) NOT NULL,
 description TEXT
 );
 
+-- Table des utilisateurs
+DROP TABLE IF EXISTS "users";
+CREATE TABLE "public"."users" (
+"id" VARCHAR(128) PRIMARY KEY,
+"email" character varying(128) NOT NULL,
+"password" character varying(256) NOT NULL,
+CONSTRAINT "users_email" UNIQUE ("email")
+) WITH (oids = false);
+
 -- Table du panier
 CREATE TABLE panier (
 id SERIAL PRIMARY KEY,
 outil_id INT REFERENCES outils(id),
+user_id VARCHAR(128) REFERENCES users(id) NOT NULL,
 date_location DATE NOT NULL,
 date_ajout TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
