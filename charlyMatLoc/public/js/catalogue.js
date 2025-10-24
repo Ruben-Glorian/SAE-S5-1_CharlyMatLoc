@@ -98,4 +98,4 @@ fetch('/api/outils')
             card.appendChild(form);
             catalogueDiv.appendChild(card);
         });
-    });
+    })

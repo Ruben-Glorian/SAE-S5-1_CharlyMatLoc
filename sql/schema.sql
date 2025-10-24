@@ -11,7 +11,8 @@ id SERIAL PRIMARY KEY,
 nom VARCHAR(100) NOT NULL,
 description TEXT,
 categorie_id INT REFERENCES categories(id),
-tarif NUMERIC(10,2) NOT NULL
+tarif NUMERIC(10,2) NOT NULL,
+nb_exemplaires INT NOT NULL DEFAULT 1
 );
 
 -- Table des images d'outils
