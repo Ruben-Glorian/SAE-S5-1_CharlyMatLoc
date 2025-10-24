@@ -5,13 +5,13 @@ $lgGout: 2.7%;
 $lgCol: math.div((100% - ($nbColGril + 1) * $lgGout), $nbColGril);
 
 body {
-    width: 100%;
+    width: 97%;
     display: grid;
     grid-template-columns: repeat($nbColGril, $lgCol);
     font-family: Arial, sans-serif;
     color:#333;
     column-gap: $lgGout;
-    margin-left: 5%;
+    margin-left: 3%;
 
     &>div:nth-child(3) {
         display: grid;
@@ -107,6 +107,22 @@ p {
     text-align: center;
 }
 
+#filters {
+    grid-column: 1 / calc($nbColGril + 1);
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 40%);
+    margin: 20px;
+    row-gap: 1%;
+}
+
+#pagination {
+    grid-column: 1 / calc($nbColGril + 1);
+    grid-row: 6;
+    text-align: center;
+    margin-top: 15%;
+}
+
 @media only screen and (min-width: 593px) {
     $nbColGril: 3;
     $lgCol: math.div((100% - ($nbColGril + 1) * $lgGout), $nbColGril);
@@ -140,6 +156,11 @@ p {
         grid-column: 1 / calc($nbColGril + 1);
         grid-row: 3;
     }
+
+    #pagination {
+        grid-column: 1 / calc($nbColGril + 1);
+        margin-top: 5%;
+    }
 }
 
 @media only screen and (min-width: 783px) {
@@ -170,6 +191,10 @@ p {
 
     p {
         grid-column: 2 / calc($nbColGril + 1);
+    }
+
+    #pagination {
+        grid-column: 1 / calc($nbColGril + 1);
     }
 }
 
@@ -202,5 +227,9 @@ p {
 
     p {
         grid-column: 3 / calc($nbColGril);
+    }
+
+    #pagination {
+        grid-column: 1 / calc($nbColGril + 1);
     }
 }

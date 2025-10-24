@@ -1,134 +1,217 @@
-//recup le catalogue d'outils depuis l'api et affiche dynamiquement les cartes outils
-fetch('/api/outils')
-    .then(res => res.json())
-    .then(data => {
-        const catalogueDiv = document.getElementById('catalogue');
-        catalogueDiv.innerHTML = '';
-        //si aucun outil dispo
-        if (data.length === 0) {
-            const empty = document.createElement('p');
-            empty.className = 'empty';
-            empty.textContent = 'Aucun outil disponible.';
-            catalogueDiv.appendChild(empty);
-            return;
+let allOutils = [];
+let currentPage = 1;
+const itemsPerPage = 10;
+
+// Charger les outils depuis l'API
+async function chargerCatalogue() {
+    try {
+        const res = await fetch('/api/outils');
+        if (!res.ok) throw new Error("Erreur serveur");
+        allOutils = await res.json();
+        afficherCatalogue();
+    } catch (err) {
+        console.error(err);
+        document.getElementById('catalogue').innerHTML = "<p>Erreur de chargement du catalogue.</p>";
+    }
+}
+
+// Filtres dynamiques
+function filtrerOutils() {
+    const name = document.getElementById('searchName')?.value.toLowerCase() || '';
+    const cat = document.getElementById('filterCategory')?.value || '';
+    const minPrice = parseFloat(document.getElementById('minPrice')?.value) || 0;
+    const maxPrice = parseFloat(document.getElementById('maxPrice')?.value) || Infinity;
+
+    return allOutils.filter(o => {
+        const matchName = o.nom.toLowerCase().includes(name);
+        const matchCat = cat === "" || o.categorie_id == cat;
+        const matchPrix = o.tarif >= minPrice && o.tarif <= maxPrice;
+        return matchName && matchCat && matchPrix;
+    });
+}
+
+// Affichage du catalogue avec pagination
+function afficherCatalogue() {
+    const catalogueDiv = document.getElementById('catalogue');
+    const outilsFiltres = filtrerOutils();
+
+    const totalPages = Math.ceil(outilsFiltres.length / itemsPerPage);
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pageOutils = outilsFiltres.slice(start, end);
+
+    catalogueDiv.innerHTML = '';
+
+    if (pageOutils.length === 0) {
+        catalogueDiv.innerHTML = '<p>Aucun outil trouvé.</p>';
+        afficherPagination(totalPages);
+        return;
+    }
+
+    pageOutils.forEach(outil => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        // --- Image ---
+        const img = document.createElement('img');
+        img.src = outil.image_url || "../images/default-tool.jpg";
+        img.alt = outil.nom;
+        img.onclick = () => window.location.href = `detailsOutil.html?id=${outil.id}`;
+        card.appendChild(img);
+
+        // --- Nom ---
+        const name = document.createElement('div');
+        name.className = 'name';
+        name.textContent = outil.nom;
+        card.appendChild(name);
+
+        // --- Description ---
+        const desc = document.createElement('p');
+        desc.textContent = outil.description || "";
+        card.appendChild(desc);
+
+        // --- Prix + exemplaires ---
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        if (typeof outil.nb_exemplaires !== 'undefined') {
+            meta.textContent =
+                `${outil.tarif} € / jour — ${outil.nb_exemplaires} ${outil.nb_exemplaires === 1 ? 'exemplaire' : 'exemplaires'} disponibles`;
+        } else {
+            meta.textContent = `${outil.tarif} € / jour — quantité inconnue`;
         }
-        //carte des outils
-        data.forEach(outil => {
-            const card = document.createElement('div');
-            card.className = 'card';
+        card.appendChild(meta);
 
-            //img
-            const img = document.createElement('img');
-            img.src = outil.image_url;
-            img.alt = outil.nom;
-            card.appendChild(img);
-            //click pour le détail
-            img.onclick = () => {
-                window.location.href = `detailsOutil.html?id=${outil.id}`;
+        // --- Formulaire d’ajout au panier ---
+        const form = document.createElement('form');
+        form.className = 'add-panier-form';
+
+        const labelDebut = document.createElement('label');
+        labelDebut.textContent = 'Du : ';
+        form.appendChild(labelDebut);
+
+        const dateDebutInput = document.createElement('input');
+        dateDebutInput.type = 'date';
+        dateDebutInput.required = true;
+        dateDebutInput.min = new Date().toISOString().split('T')[0];
+        form.appendChild(dateDebutInput);
+
+        const labelFin = document.createElement('label');
+        labelFin.textContent = ' au ';
+        form.appendChild(labelFin);
+
+        const dateFinInput = document.createElement('input');
+        dateFinInput.type = 'date';
+        dateFinInput.required = true;
+        dateFinInput.min = new Date().toISOString().split('T')[0];
+        form.appendChild(dateFinInput);
+
+        const btn = document.createElement('button');
+        btn.type = 'submit';
+        btn.textContent = 'Ajouter au panier';
+        form.appendChild(btn);
+
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const dateDebut = dateDebutInput.value;
+            const dateFin = dateFinInput.value;
+
+            if (!dateDebut || !dateFin) {
+                alert('Veuillez choisir une période');
+                return;
+            }
+            if (dateFin < dateDebut) {
+                alert('La date de fin doit être après la date de début');
+                return;
             }
 
-            //nom
-            const name = document.createElement('div');
-            name.className = 'name';
-            name.textContent = outil.nom;
-            card.appendChild(name);
-
-            //nb exemplaire
-            const meta = document.createElement('div');
-            meta.className = 'meta';
-            if (typeof outil.stock_affiche !== 'undefined') {
-                if (outil.stock_affiche > 0) {
-                    meta.textContent = outil.stock_affiche + (outil.stock_affiche === 1 ? ' exemplaire disponible' : ' exemplaires disponibles');
-                } else {
-                    meta.textContent = 'Rupture de stock';
-                }
-            } else if (typeof outil.nb_exemplaires !== 'undefined') {
-                if (outil.nb_exemplaires > 0) {
-                    meta.textContent = outil.nb_exemplaires + (outil.nb_exemplaires === 1 ? ' exemplaire disponible' : ' exemplaires disponibles');
-                } else {
-                    meta.textContent = 'Rupture de stock';
-                }
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                window.location.href = 'signin.html';
+                return;
             }
-            card.appendChild(meta);
 
-            //formulaire d'ajout au panier
-            const form = document.createElement('form');
-            form.className = 'add-panier-form';
-            form.onsubmit = function(e) {
-                e.preventDefault(); //empêche le rechargement de la page
-                const dateDebut = dateDebutInput.value;
-                const dateFin = dateFinInput.value;
-                //verif des champs date
-                if (!dateDebut || !dateFin) {
-                    alert('Veuillez choisir une période');
-                    return;
-                }
-                if (dateFin < dateDebut) {
-                    alert('La date de fin doit être après la date de début');
-                    return;
-                }
-                //verif la présence du token d'authentification
-                const token = localStorage.getItem('access_token');
-                if (!token) {
-                    window.location.href = 'signin.html';
-                    return;
-                }
-                //envoie la requête d'ajout au panier à l'api
-                fetch('/api/panier', {
+            try {
+                const res = await fetch('/api/panier', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token
                     },
-                    body: JSON.stringify({ outil_id: outil.id, date_debut: dateDebut, date_fin: dateFin })
-                })
-                    .then(res => res.json())
-                    .then(result => {
-                        // Affiche un message selon le résultat
-                        if (result.message) {
-                            alert('Outil ajouté au panier !');
-                        } else {
-                            alert(result.error || 'Erreur lors de l\'ajout au panier');
-                        }
+                    body: JSON.stringify({
+                        outil_id: outil.id,
+                        date_debut: dateDebut,
+                        date_fin: dateFin
                     })
-                    .catch(() => alert('Erreur réseau'));
-            };
+                });
 
-            //date début
-            const labelDebut = document.createElement('label');
-            labelDebut.htmlFor = 'date-debut-' + outil.id;
-            labelDebut.textContent = 'Du : ';
-            form.appendChild(labelDebut);
+                const result = await res.json();
 
-            const dateDebutInput = document.createElement('input');
-            dateDebutInput.type = 'date';
-            dateDebutInput.id = 'date-debut-' + outil.id;
-            dateDebutInput.name = 'date_debut';
-            dateDebutInput.required = true;
-            dateDebutInput.min = new Date().toISOString().split('T')[0]; // Date min = aujourd'hui
-            form.appendChild(dateDebutInput);
+                if (res.ok && result.message) {
+                    alert('✅ Outil ajouté au panier !');
+                } else {
+                    alert(result.error || '❌ Erreur lors de l\'ajout au panier');
+                }
+            } catch (error) {
+                alert('❌ Erreur réseau');
+            }
+        };
 
-            //date fin
-            const labelFin = document.createElement('label');
-            labelFin.htmlFor = 'date-fin-' + outil.id;
-            labelFin.textContent = ' au : ';
-            form.appendChild(labelFin);
+        card.appendChild(form);
+        catalogueDiv.appendChild(card);
+    });
 
-            const dateFinInput = document.createElement('input');
-            dateFinInput.type = 'date';
-            dateFinInput.id = 'date-fin-' + outil.id;
-            dateFinInput.name = 'date_fin';
-            dateFinInput.required = true;
-            dateFinInput.min = new Date().toISOString().split('T')[0]; //date min = ajd
-            form.appendChild(dateFinInput);
+    afficherPagination(totalPages);
+}
 
-            //ajout panier
-            const btn = document.createElement('button');
-            btn.type = 'submit';
-            btn.textContent = 'Ajouter au panier';
-            form.appendChild(btn);
+// Pagination
+function afficherPagination(totalPages) {
+    const paginationDiv = document.getElementById('pagination');
+    if (!paginationDiv) return;
 
-            card.appendChild(form);
-            catalogueDiv.appendChild(card);
+    paginationDiv.innerHTML = '';
+
+    if (totalPages <= 1) return;
+
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        if (i === currentPage) btn.disabled = true;
+        btn.onclick = () => {
+            currentPage = i;
+            afficherCatalogue();
+        };
+        paginationDiv.appendChild(btn);
+    }
+}
+
+// Application des filtres
+document.getElementById('applyFilters')?.addEventListener('click', () => {
+    currentPage = 1;
+    afficherCatalogue();
+});
+
+// Chargement des catégories dans le filtre (optionnel)
+async function chargerCategories() {
+    const select = document.getElementById('filterCategory');
+    if (!select) return;
+
+    try {
+        const res = await fetch('/api/categories');
+        if (!res.ok) throw new Error('Erreur chargement catégories');
+        const categories = await res.json();
+
+        select.innerHTML = '<option value="">Toutes les catégories</option>';
+        categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = cat.nom;
+            select.appendChild(option);
         });
-    })
+    } catch {
+        console.warn('Impossible de charger les catégories');
+    }
+}
+
+// Chargement initial
+chargerCategories();
+chargerCatalogue();
