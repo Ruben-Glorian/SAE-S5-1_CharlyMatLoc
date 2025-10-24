@@ -105,7 +105,7 @@ function loadPanier() {
     });
 }
 
-//Handler pour valider le panier
+//handler pour valider le panier
 function validatePanier() {
     const token = localStorage.getItem('access_token');
     const messageDiv = document.getElementById('panier-message');
@@ -135,7 +135,7 @@ function validatePanier() {
     });
 }
 
-//Initialiser au chargement de la page
+//initialiser au chargement de la page
 window.addEventListener('DOMContentLoaded', () => {
     loadPanier();
     const validateBtn = document.getElementById('valider_panier');

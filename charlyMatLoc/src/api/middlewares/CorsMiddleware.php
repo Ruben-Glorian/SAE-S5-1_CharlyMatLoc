@@ -32,13 +32,13 @@ class CorsMiddleware implements MiddlewareInterface{
 
         $response = $handler->handle($request);
 
-        //Déterminer la valeur de Access-Control-Allow-Origin
+        //détermine la valeur de Access-Control-Allow-Origin
         if($this->allowAll){
             $allowOrigin = '*';
         }elseif (!empty($this->allowedOrigins)){
             $allowOrigin = in_array($origin, $this->allowedOrigins, true) ? $origin : 'null';
         }else{
-            //Par défaut on renvoit l'origine fournie si présente, sinon *
+            //par défaut on renvoit l'origine fournie si présente, sinon *
             $allowOrigin = $origin !== '' ? $origin : '*';
         }
 

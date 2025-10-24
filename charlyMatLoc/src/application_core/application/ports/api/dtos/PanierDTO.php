@@ -9,8 +9,4 @@ class PanierDTO{
     public function __construct(Panier $newPanier) {
         $this->newPanier = $newPanier;
     }
-
-    public function getNewPanier(): Panier {
-        return $this->newPanier;
-    }
 }

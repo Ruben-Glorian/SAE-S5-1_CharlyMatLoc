@@ -16,6 +16,7 @@ use charlyMatLoc\src\application_core\application\ports\api\dtos\ProfileDTO;
 
 class AuthMiddleware
 {
+    //clef secrète utilisée pour décoder le token jwt
     private string $secretKey;
 
     public function __construct(string $secretKey)
@@ -26,8 +27,10 @@ class AuthMiddleware
     public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
+            //recup le header authz et extrait le token jwt
             $authHeader = $request->getHeaderLine('Authorization');
             $token = sscanf($authHeader, "Bearer %s")[0] ;
+            //décode le token jwt avec la clef secrète et l'algo HS512
             $payload = JWT::decode($token, new Key($this->secretKey, 'HS512'));
         } catch (ExpiredException $e) {
             throw new Exception("Token expiré");
@@ -40,15 +43,16 @@ class AuthMiddleware
         }
 
 
-        //Créé le profil à partir du token
+        //créé le profil à partir du token
         $profile = new ProfileDTO(
             id: $payload->sub,
             email: $payload->data->user,
         );
 
-        //Ajoute le profil dans la requête pour l'action suivante
+        //ajoute le profil dans la requête pour l'action suivante
         $request = $request->withAttribute('profile', $profile);
 
+        //passe la requête au handler suivant (action ou middleware)
         return $handler->handle($request);
     }
 }

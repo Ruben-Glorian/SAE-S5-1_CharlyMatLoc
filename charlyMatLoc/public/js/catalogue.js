@@ -2,7 +2,7 @@ let allOutils = [];
 let currentPage = 1;
 const itemsPerPage = 10;
 
-// Charger les outils depuis l'API
+//charger les outils depuis l'api
 async function chargerCatalogue() {
     try {
         const res = await fetch('/api/outils');
@@ -15,7 +15,7 @@ async function chargerCatalogue() {
     }
 }
 
-// Filtres dynamiques
+//filtres dynamiques
 function filtrerOutils() {
     const name = document.getElementById('searchName')?.value.toLowerCase() || '';
     const cat = document.getElementById('filterCategory')?.value || '';
@@ -30,7 +30,7 @@ function filtrerOutils() {
     });
 }
 
-// Affichage du catalogue avec pagination
+//affichage du catalogue avec pagination
 function afficherCatalogue() {
     const catalogueDiv = document.getElementById('catalogue');
     const outilsFiltres = filtrerOutils();
@@ -52,25 +52,25 @@ function afficherCatalogue() {
         const card = document.createElement('div');
         card.className = 'card';
 
-        // --- Image ---
+        //Image
         const img = document.createElement('img');
         img.src = outil.image_url || "../images/default-tool.jpg";
         img.alt = outil.nom;
         img.onclick = () => window.location.href = `detailsOutil.html?id=${outil.id}`;
         card.appendChild(img);
 
-        // --- Nom ---
+        //nom
         const name = document.createElement('div');
         name.className = 'name';
         name.textContent = outil.nom;
         card.appendChild(name);
 
-        // --- Description ---
+        //desc
         const desc = document.createElement('p');
         desc.textContent = outil.description || "";
         card.appendChild(desc);
 
-        // --- Prix + exemplaires ---
+        //prix + exemplaires
         const meta = document.createElement('div');
         meta.className = 'meta';
         if (typeof outil.nb_exemplaires !== 'undefined') {
@@ -81,7 +81,7 @@ function afficherCatalogue() {
         }
         card.appendChild(meta);
 
-        // --- Formulaire d’ajout au panier ---
+        //formulaire d’ajout au panier
         const form = document.createElement('form');
         form.className = 'add-panier-form';
 
@@ -147,12 +147,12 @@ function afficherCatalogue() {
                 const result = await res.json();
 
                 if (res.ok && result.message) {
-                    alert('✅ Outil ajouté au panier !');
+                    alert('Outil ajouté au panier !');
                 } else {
-                    alert(result.error || '❌ Erreur lors de l\'ajout au panier');
+                    alert(result.error || 'Erreur lors de l\'ajout au panier');
                 }
             } catch (error) {
-                alert('❌ Erreur réseau');
+                alert('Erreur réseau');
             }
         };
 
@@ -163,7 +163,7 @@ function afficherCatalogue() {
     afficherPagination(totalPages);
 }
 
-// Pagination
+//pagination
 function afficherPagination(totalPages) {
     const paginationDiv = document.getElementById('pagination');
     if (!paginationDiv) return;
@@ -184,13 +184,13 @@ function afficherPagination(totalPages) {
     }
 }
 
-// Application des filtres
+//application des filtres
 document.getElementById('applyFilters')?.addEventListener('click', () => {
     currentPage = 1;
     afficherCatalogue();
 });
 
-// Chargement des catégories dans le filtre (optionnel)
+//chargement des catégories dans le filtre (optionnel)
 async function chargerCategories() {
     const select = document.getElementById('filterCategory');
     if (!select) return;
@@ -212,6 +212,6 @@ async function chargerCategories() {
     }
 }
 
-// Chargement initial
+//chargement initial
 chargerCategories();
 chargerCatalogue();
