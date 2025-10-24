@@ -1,4 +1,4 @@
-//Recup le panier depuis l'api et affiche dynamiquement les cartes outils
+//recup le panier depuis l'api et affiche dynamiquement les cartes outils
 function loadPanier() {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -21,7 +21,7 @@ function loadPanier() {
         //vide le conteneur avant d'ajouter les nouveaux elems
         panierDiv.innerHTML = '';
         messageDiv.textContent = '';
-        //Utilise le tableau d'outils retourné par l'API
+        //utilise le tableau d'outils retourné par l'api
         const outils = data.panier || [];
         if (outils.length === 0) {
             const empty = document.createElement('p');
@@ -29,7 +29,7 @@ function loadPanier() {
             empty.textContent = 'Votre panier est vide.';
             panierDiv.appendChild(empty);
             totalDiv.textContent = '';
-            // masquer le bouton valider
+            //masquer le bouton valider vu que c'est vide
             validateBtn.style.display = 'none';
             return;
         }
@@ -65,7 +65,7 @@ function loadPanier() {
             panierDiv.appendChild(card);        });
         //total du panier
         totalDiv.textContent = `Montant total : ${data.total.toFixed(2)} €`;
-        //Afficher le Bouton valider
+        //bouton valider
         validateBtn.style.display = 'inline-block';
     }).catch(err => {
         console.error('Erreur chargement panier', err);

@@ -14,17 +14,19 @@ class SignInAction {
     )
     {}
 
-    public function __invoke(Request $request, Response $response): Response
-    {
+    public function __invoke(Request $request, Response $response): Response{
         try {
+            //recup des données
             $data = $request->getParsedBody();
             $email = $data['email'] ?? '';
             $password = $data['password'] ?? '';
 
+            //vérif des champs
             if (($email==='') OR ($password==='')){
                 throw new \Exception("Email ou mot de passe non fourni");
             }
-            $credentials = new CredentialsDTO($data['email'], $data['password']);            $resSignIn = $this->authnProvider->signin($credentials);
+            $credentials = new CredentialsDTO($data['email'], $data['password']);
+            $resSignIn = $this->authnProvider->signin($credentials);
 
             $authDTO = $resSignIn[0];
             $profile = $resSignIn[1];
@@ -48,6 +50,5 @@ class SignInAction {
             ]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
-
     }
 }

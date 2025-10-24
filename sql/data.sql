@@ -8,27 +8,27 @@ INSERT INTO categories (nom, description) VALUES
 ('Plomberie', 'Outils pour les travaux de plomberie'),
 ('Mécanique', 'Outils pour la réparation automobile et mécanique');
 
-INSERT INTO outils (nom, description, categorie_id, tarif) VALUES
-('Perceuse', 'Perceuse sans fil 18V', 1, 15.00),
-('Tournevis électrique', 'Tournevis rechargeable avec embouts', 1, 10.00),
-('Scie sauteuse', 'Scie sauteuse électrique', 2, 12.50),
-('Ponceuse orbitale', 'Ponceuse pour bois et surfaces planes', 2, 14.00),
-('Peinture blanche', 'Seau de peinture 10L', 3, 8.00),
-('Rouleau de peinture', 'Rouleau professionnel avec manche télescopique', 3, 5.00),
-('Aspirateur', 'Aspirateur industriel', 4, 20.00),
-('Nettoyeur haute pression', 'Nettoyeur pour terrasse et façade', 4, 25.00),
-('Tondeuse', 'Tondeuse thermique', 5, 30.00),
-('Taille-haie', 'Taille-haie électrique', 5, 18.00),
-('Multimètre', 'Appareil de mesure électrique numérique', 6, 7.50),
-('Pince à dénuder', 'Pince professionnelle isolée', 6, 4.00),
-('Clé à molette', 'Clé universelle réglable', 7, 6.00),
-('Coupe-tube', 'Coupe-tube en acier pour plomberie', 7, 9.50),
-('Cric hydraulique', 'Cric 2T pour levage de voiture', 8, 22.00),
-('Compresseur', 'Compresseur d’air 50L', 8, 28.00),
-('Marteau', 'Marteau de menuisier', 1, 5.50),
-('Ciseau à bois', 'Ciseau de précision pour bois', 2, 6.50),
-('Pistolet à peinture', 'Pistolet pulvérisateur 500W', 3, 18.00),
-('Nettoyeur vapeur', 'Nettoyeur vapeur multifonction', 4, 22.50);
+INSERT INTO outils (nom, description, categorie_id, tarif, nb_exemplaires) VALUES
+('Perceuse', 'Perceuse sans fil 18V', 1, 15.00, 5),
+('Tournevis électrique', 'Tournevis rechargeable avec embouts', 1, 10.00, 8),
+('Scie sauteuse', 'Scie sauteuse électrique', 2, 12.50, 4),
+('Ponceuse orbitale', 'Ponceuse pour bois et surfaces planes', 2, 14.00, 3),
+('Peinture blanche', 'Seau de peinture 10L', 3, 8.00, 10),
+('Rouleau de peinture', 'Rouleau professionnel avec manche télescopique', 3, 5.00, 12),
+('Aspirateur', 'Aspirateur industriel', 4, 20.00, 2),
+('Nettoyeur haute pression', 'Nettoyeur pour terrasse et façade', 4, 25.00, 3),
+('Tondeuse', 'Tondeuse thermique', 5, 30.00, 2),
+('Taille-haie', 'Taille-haie électrique', 5, 18.00, 4),
+('Multimètre', 'Appareil de mesure électrique numérique', 6, 7.50, 6),
+('Pince à dénuder', 'Pince professionnelle isolée', 6, 4.00, 8),
+('Clé à molette', 'Clé universelle réglable', 7, 6.00, 10),
+('Coupe-tube', 'Coupe-tube en acier pour plomberie', 7, 9.50, 5),
+('Cric hydraulique', 'Cric 2T pour levage de voiture', 8, 22.00, 3),
+('Compresseur', 'Compresseur d’air 50L', 8, 28.00, 2),
+('Marteau', 'Marteau de menuisier', 1, 5.50, 12),
+('Ciseau à bois', 'Ciseau de précision pour bois', 2, 6.50, 8),
+('Pistolet à peinture', 'Pistolet pulvérisateur 500W', 3, 18.00, 4),
+('Nettoyeur vapeur', 'Nettoyeur vapeur multifonction', 4, 22.50, 3);
 
 INSERT INTO images_outils (outil_id, url, description) VALUES
 (1, 'https://cdn.pixabay.com/photo/2015/11/11/12/27/drill-1038543_1280.jpg', 'Perceuse vue de face'),
