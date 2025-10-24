@@ -16,24 +16,15 @@
             <button class="btn-nav" onclick="window.location.href='panier.html'">Voir votre panier</button>
             <button class="btn-nav" onclick="window.location.href='reservation.html'">Voir vos réservations</button>
         </div>
-        <div id="filters" style="margin: 20px;">
-            <input type="text" id="searchName" placeholder="Rechercher par nom">
-            <select id="filterCategory">
-                <option value="">Toutes les catégories</option>
-                <option value="1">Menuiserie</option>
-                <option value="2">Peinture</option>
-                <option value="3">Nettoyage</option>
-                <option value="4">Jardinage</option>
-                <option value="5">Électricité</option>
-                <option value="6">Plomberie</option>
-                <option value="7">Mécanique</option>
-            </select>
-            <input type="number" id="minPrice" placeholder="Prix min" style="width: 90px;">
-            <input type="number" id="maxPrice" placeholder="Prix max" style="width: 90px;">
+        <div class="filters">
+            <input type="text" id="searchName" placeholder="Nom de l’outil">
+            <input type="number" id="minPrice" placeholder="Prix min (€)">
+            <input type="number" id="maxPrice" placeholder="Prix max (€)">
             <button id="applyFilters">Filtrer</button>
         </div>
 
-        <div id="pagination" style="margin: 10px 0;"></div>
+        <div id="pagination"></div>
+
 
         <div class="catalogue" id="catalogue">
             <div id="loadingIndicator">Chargement de la page, veuillez patienter...</div>
