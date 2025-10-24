@@ -115,7 +115,9 @@ function loadReservations() {
             if (r.date_reservation) {
                 const dateRes = document.createElement('div');
                 dateRes.className = 'meta';
-                dateRes.textContent = `Réservé le ${r.date_reservation}`;
+                const d = new Date(r.date_reservation);
+                const timeStr = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+                dateRes.textContent = `Réservé le ${timeStr}`;
                 card.appendChild(dateRes);
             }
 

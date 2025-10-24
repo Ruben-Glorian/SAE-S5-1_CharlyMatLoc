@@ -57,7 +57,7 @@ function loadPanier() {
                 badge.dataset.count = String(count);
                 badge.textContent = `${count} réservations`;
                 const tarifDiv = outil_existant.querySelector('.tarif');
-                const unit = parseFloat(outil.tarif) || 0;
+                const unit = outil.tarif;
                 if (tarifDiv) {
                     tarifDiv.textContent = `${unit.toFixed(2)} € chacun — Sous‑total : ${(unit * count).toFixed(2)} €`;
                 }
@@ -91,13 +91,13 @@ function loadPanier() {
                 //tarif
                 const tarif = document.createElement('div');
                 tarif.className = 'meta tarif';
-                tarif.textContent = `${tarif} €`;
+                tarif.textContent = outil.tarif+'€';
                 card.appendChild(tarif);
 
                 panierDiv.appendChild(card);        }
             });
         //total du panier
-        totalDiv.textContent = `Montant total : ${data.total.toFixed(2)} €`;
+        totalDiv.textContent = `Montant total : ${data.total} €`;
         //bouton valider
         validateBtn.style.display = 'inline-block';
     }).catch(err => {
