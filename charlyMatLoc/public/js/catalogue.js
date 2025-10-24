@@ -49,8 +49,8 @@ fetch('/api/outils')
                 if (!date) {
                     alert('Veuillez choisir une date');
                     return;
-                }                const token = localStorage.getItem('access_token');
-                console.log('Token récupéré:', token); // Debug
+                }
+                const token = localStorage.getItem('access_token');
                 if (!token) {
                     window.location.href = 'signin.html';
                     return;
