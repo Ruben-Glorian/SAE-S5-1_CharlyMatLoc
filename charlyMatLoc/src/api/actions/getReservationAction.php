@@ -3,15 +3,15 @@
 namespace charlyMatLoc\src\api\actions;
 
 use charlyMatLoc\src\api\providers\JWTManager;
-use charlyMatLoc\src\infrastructure\repositories\PDOReservationRepository;
+use charlyMatLoc\src\application_core\application\ports\spi\ReservationRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class getReservationAction {
-    private PDOReservationRepository $serviceReservation;
+    private ReservationRepositoryInterface $serviceReservation;
     private JWTManager $jwtManager;
 
-    public function __construct(PDOReservationRepository $serviceReservation, JWTManager $jwtManager){
+    public function __construct(ReservationRepositoryInterface $serviceReservation, JWTManager $jwtManager){
         $this->serviceReservation = $serviceReservation;
         $this->jwtManager = $jwtManager;
     }
@@ -40,9 +40,11 @@ class getReservationAction {
         }
 
         try {
-            $reservations = $this->serviceReservation->listerReservations($user_id);
+            $result = $this->serviceReservation->listerReservations($user_id);
+            $items = $result['items'] ?? $result;
+
             $response->getBody()->write(json_encode([
-                'reservations' => $reservations
+                'reservations' => $items,
             ]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
         } catch (\Throwable $e) {

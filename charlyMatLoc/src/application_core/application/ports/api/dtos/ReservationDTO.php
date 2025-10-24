@@ -7,8 +7,6 @@ class ReservationDTO {
         public readonly int $user_id,
         public readonly int $outil_id,
         public readonly string $date_location,
-        public readonly float $tarif = 0.0,
-        public readonly string $status = 'reserved'
     ) {}
 
     public function toArray(): array {

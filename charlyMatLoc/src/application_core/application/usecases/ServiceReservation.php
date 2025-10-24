@@ -14,11 +14,12 @@ class ServiceReservation implements ServiceReservationInterface
         $this->reservationRepository = $reservationRepository;
     }
 
-    public function listerReservations(int $userId): array
+    public function listerReservations(string $userId): array
     {
-        $this->reservationRepository->listerReservations($userId);
+        return $this->reservationRepository->listerReservations($userId);
     }
-    public function ajouterOutil(int $idOutil, string $date): void
+
+    public function ajouterOutil(int $idOutil, string $date, ?string $userId = null): void
     {
         $this->reservationRepository->ajouterOutil($idOutil, $date);
     }

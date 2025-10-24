@@ -1,8 +1,10 @@
 <?php
-
+// PHP
 namespace charlyMatLoc\src\api\actions;
 
 use charlyMatLoc\src\application_core\application\ports\spi\PanierRepositoryInterface;
+use charlyMatLoc\src\application_core\application\ports\spi\ReservationRepositoryInterface;
+use charlyMatLoc\src\infrastructure\repositories\PDOReservationRepository;
 use charlyMatLoc\src\api\providers\JWTManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,15 +13,21 @@ class ajoutReservationAction extends AbstractAction {
     private PanierRepositoryInterface $panierRepository;
     private \PDO $pdo;
     private JWTManager $jwtManager;
+    private ReservationRepositoryInterface $reservationRepository;
 
-    public function __construct(PanierRepositoryInterface $panierRepository, \PDO $pdo, JWTManager $jwtManager) {
+    public function __construct(
+        PanierRepositoryInterface $panierRepository,
+        \PDO $pdo,
+        JWTManager $jwtManager,
+        ReservationRepositoryInterface $reservationRepository
+    ) {
         $this->panierRepository = $panierRepository;
         $this->pdo = $pdo;
         $this->jwtManager = $jwtManager;
+        $this->reservationRepository = $reservationRepository;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-        //On recupere l'id de l'utilisateur
         $authHeader = $request->getHeaderLine('Authorization');
         if (!preg_match('/Bearer (.+)/', $authHeader, $matches)) {
             $response->getBody()->write(json_encode(['error' => 'Authentification requise']));
@@ -49,32 +57,22 @@ class ajoutReservationAction extends AbstractAction {
 
         try {
             $this->pdo->beginTransaction();
-            $stmtInsert = $this->pdo->prepare(
-                'INSERT INTO reservations (user_id, outil_id, date_location) VALUES (:user_id, :outil_id, :date_location)'
-            );
 
-            $count = 0;
             foreach ($items as $item) {
-                $outil_id = isset($item['outil_id']) ? (int)$item['outil_id'] : (int)$item['id'];
+                $outil_id = isset($item['outil_id']) ? (int)$item['outil_id'] : (int)($item['id'] ?? 0);
                 $date_location = $item['date_location'] ?? null;
-                $stmtInsert->bindValue(':user_id', $user_id, \PDO::PARAM_STR);
-                $stmtInsert->bindValue(':outil_id', $outil_id, \PDO::PARAM_INT);
-                $stmtInsert->bindValue(':date_location', $date_location, \PDO::PARAM_STR);
-                $stmtInsert->execute();
-                $count++;
+                $this->reservationRepository->ajouterOutil($outil_id, $date_location, $user_id);
             }
 
-            //On supprime les entrées dans le panier pour l'utilisateur
+            //suppression des entrées du panier pour l'utilisateur
             $stmtDelete = $this->pdo->prepare('DELETE FROM panier WHERE user_id = :user_id');
             $stmtDelete->bindValue(':user_id', $user_id, \PDO::PARAM_STR);
             $stmtDelete->execute();
 
             $this->pdo->commit();
 
-            //On renvoie un message de confirmation
             $response->getBody()->write(json_encode([
                 'message' => 'Panier valide. Reservations ajoutees.',
-                'reservations_count' => $count
             ]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
         } catch (\Exception $e) {
@@ -86,4 +84,3 @@ class ajoutReservationAction extends AbstractAction {
         }
     }
 }
-

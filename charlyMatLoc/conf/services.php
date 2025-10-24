@@ -1,20 +1,24 @@
 <?php
 
-use charlyMatLoc\src\api\actions\getCatalogueAction;
-use charlyMatLoc\src\api\actions\getDetailsOutilsAction;
-use charlyMatLoc\src\api\actions\getPanierAction;
 use charlyMatLoc\src\api\actions\ajoutPanierAction;
+use charlyMatLoc\src\api\actions\getCatalogueAction;
+use charlyMatLoc\src\api\actions\GetDetailsOutilsAction;
+use charlyMatLoc\src\api\actions\getPanierAction;
 use charlyMatLoc\src\api\actions\ajoutReservationAction;
+use charlyMatLoc\src\api\actions\getReservationAction;
 use charlyMatLoc\src\api\actions\SignInAction;
+use charlyMatLoc\src\api\actions\SignUpAction;
+use charlyMatLoc\src\api\middlewares\CorsMiddleware;
 use charlyMatLoc\src\api\providers\AuthnProviderInterface;
 use charlyMatLoc\src\api\providers\JWTAuthnProvider;
-use charlyMatLoc\src\api\actions\SignUpAction;
 use charlyMatLoc\src\application_core\application\ports\spi\AuthRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\CatalogueRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\PanierRepositoryInterface;
+use charlyMatLoc\src\application_core\application\ports\spi\ReservationRepositoryInterface;
 use charlyMatLoc\src\infrastructure\repositories\PDOAuthRepository;
 use charlyMatLoc\src\infrastructure\repositories\PDOCatalogueRepository;
 use charlyMatLoc\src\infrastructure\repositories\PDOPanierRepository;
+use charlyMatLoc\src\infrastructure\repositories\PDOReservationRepository;
 
 return[
     'pdo' => function($container) {
@@ -28,9 +32,9 @@ return[
         return new getCatalogueAction($container->get(CatalogueRepositoryInterface::class));
     },
 
-    \charlyMatLoc\src\api\actions\GetDetailsOutilsAction::class => function ($container) {
-        return new \charlyMatLoc\src\api\actions\GetDetailsOutilsAction(
-            $container->get(\charlyMatLoc\src\application_core\application\ports\spi\CatalogueRepositoryInterface::class)
+    GetDetailsOutilsAction::class => function ($container) {
+        return new GetDetailsOutilsAction(
+            $container->get(CatalogueRepositoryInterface::class)
         );
     },
     PanierRepositoryInterface::class => function($container) {
@@ -42,6 +46,12 @@ return[
             $container->get('JWTManager')
         );
     },
+    getReservationAction::class => function ($container) {
+        return new getReservationAction(
+            $container->get(ReservationRepositoryInterface::class),
+            $container->get('JWTManager')
+        );
+    },
     ajoutPanierAction::class => function($container) {
         return new \charlyMatLoc\src\api\actions\ajoutPanierAction(
             $container->get(PanierRepositoryInterface::class),
@@ -49,14 +59,18 @@ return[
         );
     },
     ajoutReservationAction::class => function($container) {
-        return new \charlyMatLoc\src\api\actions\ajoutReservationAction(
+        return new ajoutReservationAction(
             $container->get(PanierRepositoryInterface::class),
             $container->get('pdo'),
-            $container->get('JWTManager')
+            $container->get('JWTManager'),
+            $container->get(ReservationRepositoryInterface::class)
         );
     },
+    ReservationRepositoryInterface::class => function($container) {
+        return new PDOReservationRepository($container->get('pdo'));
+    },
     AuthnProviderInterface::class => function ($container) {
-        return new \charlyMatLoc\src\api\providers\JWTAuthnProvider(
+        return new JWTAuthnProvider(
             $container->get('JWTManager'),
             $container->get('ServiceUser')
         );
