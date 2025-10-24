@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Catalogue dynamique</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/catalogue.css">
-    </head>
-    <body>
-        <div id="userInfoBar"></div>
-        <h1>Catalogue des outils</h1>
-        <div>
-            <button class="btn-nav" id="authButton">Connexion</button>
-            <button class="btn-nav" onclick="window.location.href='signup.html'">Inscription</button>
-            <button class="btn-nav" onclick="window.location.href='panier.html'">Voir votre panier</button>
-            <button class="btn-nav" onclick="window.location.href='reservation.html'">Voir vos réservations</button>
-        </div>
-        <div class="filters">
-            <input type="text" id="searchName" placeholder="Nom de l’outil">
-            <input type="number" id="minPrice" placeholder="Prix min (€)">
-            <input type="number" id="maxPrice" placeholder="Prix max (€)">
-            <button id="applyFilters">Filtrer</button>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Catalogue dynamique</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="stylesheet" href="../css/catalogue.css">
+</head>
+<body>
+<div id="userInfoBar"></div>
+<h1>Catalogue des outils</h1>
+<div>
+    <button class="btn-nav" id="authButton">Connexion</button>
+    <button class="btn-nav" onclick="window.location.href='signup.html'">Inscription</button>
+    <button class="btn-nav" onclick="window.location.href='panier.html'">Voir votre panier</button>
+    <button class="btn-nav" onclick="window.location.href='reservation.html'">Voir vos réservations</button>
+</div>
+<div class="filters">
+    <input type="text" id="searchName" placeholder="Nom de l’outil">
+    <input type="number" id="minPrice" placeholder="Prix min (€)">
+    <input type="number" id="maxPrice" placeholder="Prix max (€)">
 
-        <div id="pagination"></div>
+    <button id="applyFilters">Filtrer</button>
+</div>
 
+<div id="pagination"></div>
 
-        <div class="catalogue" id="catalogue">
-            <div id="loadingIndicator">Chargement de la page, veuillez patienter...</div>
-        </div>
-        <script src="../js/catalogue.js"></script>
-        <script src="../js/userinfo.js"></script>
-    </body>
+<div class="catalogue" id="catalogue">
+    <div id="loadingIndicator">Chargement de la page, veuillez patienter...</div>
+</div>
+<script src="../js/catalogue.js"></script>
+<script src="../js/userinfo.js"></script>
+</body>
 </html>
