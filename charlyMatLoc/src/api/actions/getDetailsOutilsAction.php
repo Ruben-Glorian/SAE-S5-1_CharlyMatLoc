@@ -6,7 +6,7 @@ use charlyMatLoc\src\infrastructure\repositories\PDOCatalogueRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class getDetailsOutilsAction extends AbstractAction
+class GetDetailsOutilsAction extends AbstractAction
 {
     private PDOCatalogueRepository $catalogueRepository;
 
