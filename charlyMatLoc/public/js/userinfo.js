@@ -1,10 +1,31 @@
-// Affiche l'email de l'utilisateur connecté si présent dans le localStorage
-(function() {
+(function () {
     const userInfoBar = document.getElementById('userInfoBar');
+    const authButton = document.getElementById('authButton');
     const email = localStorage.getItem('user_email');
-    if (userInfoBar && email) {
-        userInfoBar.textContent = `Connecté en tant que : ${email}`;
-        userInfoBar.style.display = 'block';
+    const token = localStorage.getItem('access_token');
+
+    // Si connecté
+    if (email && token) {
+        if (userInfoBar) {
+            userInfoBar.textContent = `Connecté en tant que : ${email}`;
+            userInfoBar.style.display = 'block';
+        }
+
+        if (authButton) {
+            authButton.textContent = 'Déconnexion';
+            authButton.onclick = () => {
+                localStorage.removeItem('user_email');
+                localStorage.removeItem('access_token');
+                window.location.href = 'signin.html';
+            };
+        }
+    } else {
+        // Si non connecté
+        if (authButton) {
+            authButton.textContent = 'Connexion';
+            authButton.onclick = () => {
+                window.location.href = 'signin.html';
+            };
+        }
     }
 })();
-
