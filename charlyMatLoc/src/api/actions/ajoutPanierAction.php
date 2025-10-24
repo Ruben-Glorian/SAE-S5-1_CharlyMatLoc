@@ -49,7 +49,12 @@ class ajoutPanierAction extends AbstractAction {
             $response->getBody()->write(json_encode(['error' => 'La date de fin doit être après la date de début.']));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
-        //verif de la disponibilité de l'outil sur toute la période
+        //verif de conflit de période dans le panier utilisateur
+        if ($this->panierRepository->verifConflitPeriode($user_id, $date_debut, $date_fin)) {
+            $response->getBody()->write(json_encode(['error' => 'Vous avez déjà un outil dans votre panier pour cette période.']));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(409);
+        }
+        //verif de la dispo sur la période donnée
         $stmt = $this->panierRepository->getPDO()->prepare('
             SELECT COUNT(*) FROM (
                 SELECT date_location FROM reservations WHERE outil_id = :id AND date_location BETWEEN :debut AND :fin
