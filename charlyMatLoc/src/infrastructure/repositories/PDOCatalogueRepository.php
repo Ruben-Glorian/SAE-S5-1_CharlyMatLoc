@@ -14,12 +14,22 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface{
         $this->pdo = $pdo;
     }
 
-    public function listerOutils(): array{
+    public function listerOutils(?string $userId = null): array{
         $stmt = $this->pdo->prepare('SELECT o.*, (SELECT url FROM images_outils WHERE outil_id = o.id LIMIT 1) AS image_url FROM outils o');
         $stmt->execute();
 
         $outils = [];
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)){
+            $stock_panier = 0;
+            if ($userId) {
+                $sqlPanier = 'SELECT COUNT(*) FROM panier WHERE outil_id = :outil_id AND user_id = :user_id';
+                $stmtPanier = $this->pdo->prepare($sqlPanier);
+                $stmtPanier->bindParam(':outil_id', $row['id'], \PDO::PARAM_INT);
+                $stmtPanier->bindParam(':user_id', $userId, \PDO::PARAM_STR);
+                $stmtPanier->execute();
+                $stock_panier = (int)$stmtPanier->fetchColumn();
+            }
+            $row['stock_affiche'] = $row['nb_exemplaires'] - $stock_panier;
             $outils[] = $row;
         }
         return $outils;
