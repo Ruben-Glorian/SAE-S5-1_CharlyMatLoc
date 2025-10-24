@@ -39,27 +39,78 @@ function loadReservations() {
         }
 
         items.forEach(r => {
-            const card = document.createElement('div');
+            const outil_id = r.outil_id;
+            let card = reservationsDiv.querySelector(`.card[data-outil="${outil_id}"]`);
+
+            if (card) {
+                let ul = card.querySelector('.dates-list');
+                if (!ul) {
+                    ul = document.createElement('ul');
+                    ul.className = 'dates-list';
+                    card.appendChild(ul);
+                }
+                const li = document.createElement('li');
+                li.textContent = r.date_location;
+                ul.appendChild(li);
+
+                const count = ul.children.length;
+                let badge = card.querySelector('.badge');
+                if (count > 1) {
+                    if (!badge) {
+                        badge = document.createElement('div');
+                        badge.className = 'badge';
+                        card.insertBefore(badge, card.querySelector('.meta') || null);
+                    }
+                    badge.textContent = `${count} réservations`;
+                } else if (badge) {
+                    badge.remove();
+                }
+
+                const tarifUnit = card.dataset.tarif;
+                let tarifDiv = card.querySelector('.meta.tarif');
+                if (tarifUnit > 0) {
+                    const text = `${tarifUnit} € chacun` + (count > 0 ? ` — Sous‑total : ${tarifUnit * count} €` : '');
+                    if (!tarifDiv) {
+                        tarifDiv = document.createElement('div');
+                        tarifDiv.className = 'meta tarif';
+                        card.appendChild(tarifDiv);
+                    }
+                    tarifDiv.textContent = text;
+                } else if (tarifDiv) {
+                    tarifDiv.remove();
+                }
+
+                return;
+            }
+
+            //création d'une nouvelle carte
+            card = document.createElement('div');
             card.className = 'card';
+            card.dataset.outil = outil_id;
+
+            const unitTarif = r.tarif;
+            if (unitTarif > 0) card.dataset.tarif = String(unitTarif);
 
             const title = document.createElement('div');
             title.className = 'name';
-            title.textContent = r.nom || r.outil_nom || (`Réservation #${r.id || ''}`);
+            title.textContent = r.nom || r.outil_nom;
             card.appendChild(title);
 
             if (r.image_url) {
                 const img = document.createElement('img');
                 img.src = r.image_url;
-                img.alt = r.nom || 'outil';
+                img.alt = r.nom || r.outil_nom || 'outil';
                 card.appendChild(img);
             }
 
+            const ul = document.createElement('ul');
+            ul.className = 'dates-list';
             if (r.date_location) {
-                const dateLoc = document.createElement('div');
-                dateLoc.className = 'meta';
-                dateLoc.textContent = `Location le ${r.date_location}`;
-                card.appendChild(dateLoc);
+                const li = document.createElement('li');
+                li.textContent = r.date_location;
+                ul.appendChild(li);
             }
+            card.appendChild(ul);
 
             if (r.date_reservation) {
                 const dateRes = document.createElement('div');
@@ -68,8 +119,27 @@ function loadReservations() {
                 card.appendChild(dateRes);
             }
 
+            //tarif affiché si present
+            if (unitTarif > 0) {
+                const count = ul.children.length;
+                const tarifDiv = document.createElement('div');
+                tarifDiv.className = 'meta tarif';
+                tarifDiv.textContent = `${unitTarif} € chacun` + (count > 0 ? ` — Sous‑total : ${unitTarif * count} €` : '');
+                card.appendChild(tarifDiv);
+            }
+
+
+            const nbReservations = ul.children.length;
+            if (nbReservations > 1) {
+                const badge = document.createElement('div');
+                badge.className = 'badge';
+                badge.textContent = `${nbReservations} réservations`;
+                card.insertBefore(badge, card.querySelector('.meta') || null);
+            }
+
             reservationsDiv.appendChild(card);
         });
+
     })
     .catch(err => {
         console.error('Erreur chargement réservations', err);

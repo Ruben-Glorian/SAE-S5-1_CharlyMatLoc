@@ -45,13 +45,11 @@ class ajoutReservationAction extends AbstractAction {
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
-        //On recupere les lignes du panier de l'utilisateur depuis la bd
-        $stmt = $this->pdo->prepare('SELECT id, outil_id, date_location FROM panier WHERE user_id = :user_id ORDER BY id');
-        $stmt->bindValue(':user_id', $user_id, \PDO::PARAM_STR);
-        $stmt->execute();
-        $lignes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        //On recupere le panier via le repository
+        $panier = $this->panierRepository->listerPanier($user_id);
+        $items = $panier['items'] ?? [];
 
-        if (empty($lignes)) {
+        if (empty($items)) {
             $response->getBody()->write(json_encode(['message' => 'Panier vide, rien a valider']));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
         }
@@ -59,25 +57,39 @@ class ajoutReservationAction extends AbstractAction {
         try {
             $this->pdo->beginTransaction();
 
-            $ins = $this->pdo->prepare('INSERT INTO reservations (user_id, outil_id, date_location) VALUES (:user_id, :outil_id, :date_location)');
-            $del = $this->pdo->prepare('DELETE FROM panier WHERE id = :id');
-
+            //On enregistre chaque outil du panier en reservation
+            $outils_reserves = [];
             $countInserted = 0;
-            foreach ($lignes as $ligne) {
-                $panierId = (int)($ligne['id'] ?? 0);
-                $outilId = isset($ligne['outil_id']) ? (int)$ligne['outil_id'] : 0;
-                $dateLocation = $ligne['date_location'] ?? null;
+            foreach ($items as $item) {
+                $outil_id = isset($item['outil_id']) ? (int)$item['outil_id'] : (int)($item['id'] ?? 0);
+                $date_location = $item['date_location'] ?? null;
 
-                $ins->bindValue(':user_id', $user_id, \PDO::PARAM_STR);
-                $ins->bindValue(':outil_id', $outilId, \PDO::PARAM_INT);
-                $ins->bindValue(':date_location', $dateLocation);
-                $ins->execute();
-
-                $del->bindValue(':id', $panierId, \PDO::PARAM_INT);
-                $del->execute();
-
+                // déléguer l'ajout au repository de réservations
+                $this->reservationRepository->ajouterOutil($outil_id, $date_location, $user_id);
+                $outils_reserves[$outil_id] = true;
                 $countInserted++;
             }
+
+            //On decremente le stock UNE SEULE FOIS par outil(meme si reservé sur plusieurs jours)
+            foreach (array_keys($outils_reserves) as $outil_id) {
+                $stmtStock = $this->pdo->prepare('SELECT nb_exemplaires FROM outils WHERE id = :id FOR UPDATE');
+                $stmtStock->bindValue(':id', $outil_id, \PDO::PARAM_INT);
+                $stmtStock->execute();
+                $stock = (int)$stmtStock->fetchColumn();
+
+                if ($stock <= 0) {
+                    throw new \Exception('Stock insuffisant pour l\'outil ID ' . $outil_id);
+                }
+
+                $stmtUpdate = $this->pdo->prepare('UPDATE outils SET nb_exemplaires = nb_exemplaires - 1 WHERE id = :id');
+                $stmtUpdate->bindValue(':id', $outil_id, \PDO::PARAM_INT);
+                $stmtUpdate->execute();
+            }
+
+            //On supprime les entrees du panier
+            $stmtDelete = $this->pdo->prepare('DELETE FROM panier WHERE user_id = :user_id');
+            $stmtDelete->bindValue(':user_id', $user_id, \PDO::PARAM_STR);
+            $stmtDelete->execute();
 
             $this->pdo->commit();
 
