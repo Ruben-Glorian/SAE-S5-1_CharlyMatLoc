@@ -62,11 +62,12 @@ class PDOPanierRepository implements PanierRepositoryInterface{
         return false;
     }
 
-    //verif conflit de période
-    public function verifConflitPeriode(string $userId, string $dateDebut, string $dateFin): bool {
-        $sql = "SELECT COUNT(*) FROM panier WHERE user_id = :user_id AND date_location BETWEEN :debut AND :fin";
+    //verif conflit de période pour un outil précis
+    public function verifConflitPeriode(int $idOutil, string $userId, string $dateDebut, string $dateFin): bool {
+        $sql = "SELECT COUNT(*) FROM panier WHERE user_id = :user_id AND outil_id = :outil_id AND date_location BETWEEN :debut AND :fin";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':user_id', $userId, \PDO::PARAM_STR);
+        $stmt->bindParam(':outil_id', $idOutil, \PDO::PARAM_INT);
         $stmt->bindParam(':debut', $dateDebut, \PDO::PARAM_STR);
         $stmt->bindParam(':fin', $dateFin, \PDO::PARAM_STR);
         $stmt->execute();

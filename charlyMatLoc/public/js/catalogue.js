@@ -36,14 +36,18 @@ fetch('/api/outils')
             //nb exemplaire
             const meta = document.createElement('div');
             meta.className = 'meta';
-            if (typeof outil.nb_exemplaires !== 'undefined') {
+            if (typeof outil.stock_affiche !== 'undefined') {
+                if (outil.stock_affiche > 0) {
+                    meta.textContent = outil.stock_affiche + (outil.stock_affiche === 1 ? ' exemplaire disponible' : ' exemplaires disponibles');
+                } else {
+                    meta.textContent = 'Rupture de stock';
+                }
+            } else if (typeof outil.nb_exemplaires !== 'undefined') {
                 if (outil.nb_exemplaires > 0) {
                     meta.textContent = outil.nb_exemplaires + (outil.nb_exemplaires === 1 ? ' exemplaire disponible' : ' exemplaires disponibles');
                 } else {
-                    meta.textContent = 'Aucun exemplaire disponible';
+                    meta.textContent = 'Rupture de stock';
                 }
-            } else {
-                meta.textContent = 'Nombre d\'exemplaires inconnu';
             }
             card.appendChild(meta);
 
@@ -78,16 +82,16 @@ fetch('/api/outils')
                     },
                     body: JSON.stringify({ outil_id: outil.id, date_debut: dateDebut, date_fin: dateFin })
                 })
-                .then(res => res.json())
-                .then(result => {
-                    // Affiche un message selon le résultat
-                    if (result.message) {
-                        alert('Outil ajouté au panier !');
-                    } else {
-                        alert(result.error || 'Erreur lors de l\'ajout au panier');
-                    }
-                })
-                .catch(() => alert('Erreur réseau'));
+                    .then(res => res.json())
+                    .then(result => {
+                        // Affiche un message selon le résultat
+                        if (result.message) {
+                            alert('Outil ajouté au panier !');
+                        } else {
+                            alert(result.error || 'Erreur lors de l\'ajout au panier');
+                        }
+                    })
+                    .catch(() => alert('Erreur réseau'));
             };
 
             //date début

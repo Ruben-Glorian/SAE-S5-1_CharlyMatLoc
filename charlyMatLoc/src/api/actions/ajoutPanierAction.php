@@ -50,8 +50,8 @@ class ajoutPanierAction extends AbstractAction {
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
         //verif de conflit de période dans le panier utilisateur
-        if ($this->panierRepository->verifConflitPeriode($user_id, $date_debut, $date_fin)) {
-            $response->getBody()->write(json_encode(['error' => 'Vous avez déjà un outil dans votre panier pour cette période.']));
+        if ($this->panierRepository->verifConflitPeriode($outil_id, $user_id, $date_debut, $date_fin)) {
+            $response->getBody()->write(json_encode(['error' => 'Vous avez déjà cet outil dans votre panier pour cette période.']));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(409);
         }
         //verif de la dispo sur la période donnée
