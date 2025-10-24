@@ -61,7 +61,20 @@ class ajoutReservationAction extends AbstractAction {
             foreach ($items as $item) {
                 $outil_id = isset($item['outil_id']) ? (int)$item['outil_id'] : (int)($item['id'] ?? 0);
                 $date_location = $item['date_location'] ?? null;
+                //verif du stock
+                $stmtStock = $this->pdo->prepare('SELECT nb_exemplaires FROM outils WHERE id = :id');
+                $stmtStock->bindValue(':id', $outil_id, \PDO::PARAM_INT);
+                $stmtStock->execute();
+                $stock = (int)$stmtStock->fetchColumn();
+                if ($stock <= 0) {
+                    throw new \Exception('Stock insuffisant pour l\'outil ID ' . $outil_id);
+                }
+                //ajout reservation
                 $this->reservationRepository->ajouterOutil($outil_id, $date_location, $user_id);
+                //on réduit le stock
+                $stmtUpdate = $this->pdo->prepare('UPDATE outils SET nb_exemplaires = nb_exemplaires - 1 WHERE id = :id');
+                $stmtUpdate->bindValue(':id', $outil_id, \PDO::PARAM_INT);
+                $stmtUpdate->execute();
             }
 
             //suppression des entrées du panier pour l'utilisateur
