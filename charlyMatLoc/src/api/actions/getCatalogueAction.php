@@ -14,7 +14,9 @@ class getCatalogueAction extends AbstractAction{
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface{
+        //recup la liste des outils via le service catalogue
         $catalogue = $this->serviceCatalogue->listerOutils();
+        //transforme chaque outil en tableau
         $catalogueArray = array_map(function($o) {
             return is_object($o) && method_exists($o, 'toArray') ? $o->toArray() : $o;
         }, $catalogue);

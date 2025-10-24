@@ -26,11 +26,14 @@ class SignInAction {
                 throw new \Exception("Email ou mot de passe non fourni");
             }
             $credentials = new CredentialsDTO($data['email'], $data['password']);
+            //appelle le provider d'authentification pour vérifier les identifiants
             $resSignIn = $this->authnProvider->signin($credentials);
 
+            //recup le token et le profil utilisateur
             $authDTO = $resSignIn[0];
             $profile = $resSignIn[1];
 
+            //rep a renvoyer
             $res = [
                 'token' => $authDTO->accesToken,
                 'profile' => $profile

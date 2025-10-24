@@ -11,7 +11,8 @@ use charlyMatLoc\src\api\actions\SignInAction;
 use charlyMatLoc\src\api\actions\SignUpAction;
 use charlyMatLoc\src\api\middlewares\CorsMiddleware;
 
-return function(\Slim\App $app):\Slim\App {    //Routes des apis
+return function(\Slim\App $app):\Slim\App {
+    //Routes des apis
     $app->get('/api/outils', getCatalogueAction::class);
     $app->get('/api/panier/{id_user}', getPanierAction::class);
     $app->get('/api/panier', getPanierAction::class);

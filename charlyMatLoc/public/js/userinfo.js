@@ -4,7 +4,7 @@
     const email = localStorage.getItem('user_email');
     const token = localStorage.getItem('access_token');
 
-    // Si connecté
+    //si connecté
     if (email && token) {
         if (userInfoBar) {
             userInfoBar.textContent = `Connecté en tant que : ${email}`;
@@ -20,7 +20,7 @@
             };
         }
     } else {
-        // Si non connecté
+        //si pas connecté
         if (authButton) {
             authButton.textContent = 'Connexion';
             authButton.onclick = () => {
