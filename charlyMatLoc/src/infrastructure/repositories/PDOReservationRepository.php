@@ -13,12 +13,16 @@ class PDOReservationRepository implements ReservationRepositoryInterface
         $this->pdo = $pdo;
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
+
+    //retourne la liste des réservations d'un utilisateur
     public function listerReservations(string $userId): array
     {
+        //si l'id utilisateur est vide, retourne une liste vide
         if (empty($userId)) {
             return ['items' => [], 'total' => 0.0];
         }
 
+        //requête sql pour recup les réservations et les infos outils/images
         $sql = "
             SELECT r.id, r.user_id, r.outil_id, r.date_location, r.date_reservation,
                    o.nom AS outil_nom,
@@ -34,6 +38,7 @@ class PDOReservationRepository implements ReservationRepositoryInterface
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $items = [];
+        //transforme chaque ligne sql en tableau associatif pour l'affichage
         foreach ($rows as $row) {
             $items[] = [
                 'id' => isset($row['id']) ? (int)$row['id'] : 0,
@@ -48,8 +53,11 @@ class PDOReservationRepository implements ReservationRepositoryInterface
 
         return $items;
     }
+
+    //ajoute une réservation pour un outil, une date et un utilisateur
     public function ajouterOutil(int $idOutil, string $date, ?string $userId = null): void
     {
+        //si l'id utilisateur n'est pas fourni, tente de le récupérer depuis la session
         if ($userId === null) {
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
@@ -61,6 +69,7 @@ class PDOReservationRepository implements ReservationRepositoryInterface
             throw new \RuntimeException('Utilisateur non connecté');
         }
 
+        //requête sql pour ajouter la réservation
         $sql = "INSERT INTO reservations (user_id, outil_id, date_location) VALUES (:user_id, :outil_id, :date_location)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([

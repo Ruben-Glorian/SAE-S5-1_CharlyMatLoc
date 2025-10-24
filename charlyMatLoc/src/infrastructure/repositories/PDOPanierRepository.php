@@ -11,6 +11,7 @@ class PDOPanierRepository implements PanierRepositoryInterface{
         $this->pdo = $pdo;
     }
 
+    //retourne le contenu du panier et le total pour un utilisateur
     public function listerPanier(string $userId): array{
         $sql = "SELECT p.id, p.outil_id, p.date_location, p.date_ajout, o.nom, o.tarif, i.url AS image_url
                 FROM panier p
@@ -42,6 +43,7 @@ class PDOPanierRepository implements PanierRepositoryInterface{
         ];
     }
 
+    //ajoute un outil au panier pour une date donnée
     public function ajouterOutil(int $idOutil, string $date, string $userId): void{
         $sql = "INSERT INTO panier (outil_id, user_id, date_location, date_ajout) VALUES (:outil_id, :user_id, :date_location, NOW())";
         $stmt = $this->pdo->prepare($sql);
@@ -74,7 +76,7 @@ class PDOPanierRepository implements PanierRepositoryInterface{
         return $stmt->fetchColumn() > 0;
     }
 
-    //retourne l'objet pdo
+    //retourne l'objet pdo (utilse pour les requetes directes)
     public function getPDO(): \PDO {
         return $this->pdo;
     }

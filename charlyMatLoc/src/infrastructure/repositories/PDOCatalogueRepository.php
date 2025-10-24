@@ -14,6 +14,7 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface{
         $this->pdo = $pdo;
     }
 
+    //retourne la liste des outils du catalogue
     public function listerOutils(?string $userId = null): array{
         $stmt = $this->pdo->prepare('SELECT o.*, (SELECT url FROM images_outils WHERE outil_id = o.id LIMIT 1) AS image_url FROM outils o');
         $stmt->execute();
@@ -21,6 +22,7 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface{
         $outils = [];
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)){
             $stock_panier = 0;
+            //si un userId est fourni, calcule le nombre d'exemplaires de cet outil dans le panier de l'utilisateur
             if ($userId) {
                 $sqlPanier = 'SELECT COUNT(*) FROM panier WHERE outil_id = :outil_id AND user_id = :user_id';
                 $stmtPanier = $this->pdo->prepare($sqlPanier);
@@ -29,15 +31,14 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface{
                 $stmtPanier->execute();
                 $stock_panier = (int)$stmtPanier->fetchColumn();
             }
+            //stock affiché = stock réel - nombre dans le panier
             $row['stock_affiche'] = $row['nb_exemplaires'] - $stock_panier;
             $outils[] = $row;
         }
         return $outils;
     }
 
-    /**
-     * Récupère les détails d’un outil spécifique
-     */
+    //recup les détails d'un outil
     public function detailsOutil(int|string $id): ?Outils{
         try {
             $sql = "
@@ -56,9 +57,10 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface{
                 return null;
             }
 
+            //recup toutes les images associées à l'outil
             $images = $this->getImagesByOutilId($id);
 
-            // On crée une entité Outil
+            //on crée un outil avec les données récupérées
             $outil = new Outils(
                 (int)$row['id'],
                 $row['nom'],
@@ -76,9 +78,7 @@ class PDOCatalogueRepository implements CatalogueRepositoryInterface{
         }
     }
 
-    /**
-     * Récupère les images associées à un outil
-     */
+    //recup les images associées à un outil
     private function getImagesByOutilId(int $id): array{
         try {
             $sql = "

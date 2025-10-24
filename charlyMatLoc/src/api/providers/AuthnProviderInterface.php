@@ -8,6 +8,4 @@ use charlyMatLoc\src\application_core\application\ports\api\dtos\ProfileDTO;
 interface AuthnProviderInterface {
     public function register(CredentialsDTO $credentials): ProfileDTO;
     public function signin(CredentialsDTO $credentials): array;
-    //public function refresh(Token $token): AuthDTO;
-    //public function getSignedInUser(Token $token): ProfileDTO;
 }

@@ -9,8 +9,4 @@ class CatalogueDTO{
     public function __construct(Outils $newOutil) {
         $this->newOutil = $newOutil;
     }
-
-    public function getNewOutil(): Outils {
-        return $this->newOutil;
-    }
 }
