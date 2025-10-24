@@ -15,12 +15,11 @@ class getPanierAction {
         $this->servicePanier = $servicePanier;
         $this->jwtManager = $jwtManager;
     }    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface{
-        // Vérifier si un ID utilisateur est fourni dans l'URL
+        //verif si un id utilisateur est fourni dans l'url
         if (isset($args['id_user'])) {
-            // Utiliser l'ID utilisateur de l'URL (UUID/VARCHAR)
             $user_id = $args['id_user'];
         } else {
-            // Comportement original : récupérer l'ID depuis le token JWT
+            //recup l'id depuis le token jwt
             $authHeader = $request->getHeaderLine('Authorization');
             if (!preg_match('/Bearer (.+)/', $authHeader, $matches)) {
                 $response->getBody()->write(json_encode(['error' => 'Authentification requise.']));
