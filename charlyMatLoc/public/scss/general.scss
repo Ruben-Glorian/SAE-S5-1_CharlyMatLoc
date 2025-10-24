@@ -107,6 +107,10 @@ p {
     text-align: center;
 }
 
+.empty {
+    grid-column: 1 / calc($nbColGril + 1);
+}
+
 #filters {
     grid-column: 1 / calc($nbColGril + 1);
     width: 100%;
@@ -152,6 +156,10 @@ p {
         grid-row: 2;
     }
 
+    .empty {
+        grid-column: 1 / calc($nbColGril + 1);
+    }
+
     p {
         grid-column: 1 / calc($nbColGril + 1);
         grid-row: 3;
@@ -189,6 +197,10 @@ p {
         grid-column: 2 / calc($nbColGril + 1);
     }
 
+    .empty {
+        grid-column: 1 / calc($nbColGril + 1);
+    }
+
     p {
         grid-column: 2 / calc($nbColGril + 1);
     }
@@ -223,6 +235,10 @@ p {
 
     #signupForm, #signinForm {
         grid-column: 3 / calc($nbColGril);
+    }
+
+    .empty {
+        grid-column: 1 / calc($nbColGril + 1);
     }
 
     p {
