@@ -58,10 +58,18 @@ class ajoutReservationAction extends AbstractAction {
         try {
             $this->pdo->beginTransaction();
 
+            //regroupement des outils uniques à réserver
+            $outils_reserves = [];
             foreach ($items as $item) {
                 $outil_id = isset($item['outil_id']) ? (int)$item['outil_id'] : (int)($item['id'] ?? 0);
                 $date_location = $item['date_location'] ?? null;
-                //verif du stock
+                //ajout de la réservation (par date)
+                $this->reservationRepository->ajouterOutil($outil_id, $date_location, $user_id);
+                //on marque l'outil comme réservé (pour le stock)
+                $outils_reserves[$outil_id] = true;
+            }
+            //verif et décrémentation du stock une seule fois par outil
+            foreach (array_keys($outils_reserves) as $outil_id) {
                 $stmtStock = $this->pdo->prepare('SELECT nb_exemplaires FROM outils WHERE id = :id');
                 $stmtStock->bindValue(':id', $outil_id, \PDO::PARAM_INT);
                 $stmtStock->execute();
@@ -69,9 +77,6 @@ class ajoutReservationAction extends AbstractAction {
                 if ($stock <= 0) {
                     throw new \Exception('Stock insuffisant pour l\'outil ID ' . $outil_id);
                 }
-                //ajout reservation
-                $this->reservationRepository->ajouterOutil($outil_id, $date_location, $user_id);
-                //on réduit le stock
                 $stmtUpdate = $this->pdo->prepare('UPDATE outils SET nb_exemplaires = nb_exemplaires - 1 WHERE id = :id');
                 $stmtUpdate->bindValue(':id', $outil_id, \PDO::PARAM_INT);
                 $stmtUpdate->execute();

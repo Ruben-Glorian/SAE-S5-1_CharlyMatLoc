@@ -43,7 +43,6 @@ fetch('/api/outils')
                     meta.textContent = 'Rupture de stock';
                 }
             } else if (typeof outil.nb_exemplaires !== 'undefined') {
-                // fallback si stock_affiche absent
                 if (outil.nb_exemplaires > 0) {
                     meta.textContent = outil.nb_exemplaires + (outil.nb_exemplaires === 1 ? ' exemplaire disponible' : ' exemplaires disponibles');
                 } else {
