@@ -1,10 +1,8 @@
 <?php
-// PHP
 namespace charlyMatLoc\src\api\actions;
 
 use charlyMatLoc\src\application_core\application\ports\spi\PanierRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\ReservationRepositoryInterface;
-use charlyMatLoc\src\infrastructure\repositories\PDOReservationRepository;
 use charlyMatLoc\src\api\providers\JWTManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,6 +45,7 @@ class ajoutReservationAction extends AbstractAction {
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
+        //On recupere le panier via le repository
         $panier = $this->panierRepository->listerPanier($user_id);
         $items = $panier['items'] ?? [];
 
@@ -58,31 +57,36 @@ class ajoutReservationAction extends AbstractAction {
         try {
             $this->pdo->beginTransaction();
 
-            //regroupement des outils uniques à réserver
+            //On enregistre chaque outil du panier en reservation
             $outils_reserves = [];
+            $countInserted = 0;
             foreach ($items as $item) {
                 $outil_id = isset($item['outil_id']) ? (int)$item['outil_id'] : (int)($item['id'] ?? 0);
                 $date_location = $item['date_location'] ?? null;
-                //ajout de la réservation (par date)
+
+                // déléguer l'ajout au repository de réservations
                 $this->reservationRepository->ajouterOutil($outil_id, $date_location, $user_id);
-                //on marque l'outil comme réservé (pour le stock)
                 $outils_reserves[$outil_id] = true;
+                $countInserted++;
             }
-            //verif et décrémentation du stock une seule fois par outil
+
+            //On decremente le stock UNE SEULE FOIS par outil(meme si reservé sur plusieurs jours)
             foreach (array_keys($outils_reserves) as $outil_id) {
-                $stmtStock = $this->pdo->prepare('SELECT nb_exemplaires FROM outils WHERE id = :id');
+                $stmtStock = $this->pdo->prepare('SELECT nb_exemplaires FROM outils WHERE id = :id FOR UPDATE');
                 $stmtStock->bindValue(':id', $outil_id, \PDO::PARAM_INT);
                 $stmtStock->execute();
                 $stock = (int)$stmtStock->fetchColumn();
+
                 if ($stock <= 0) {
                     throw new \Exception('Stock insuffisant pour l\'outil ID ' . $outil_id);
                 }
+
                 $stmtUpdate = $this->pdo->prepare('UPDATE outils SET nb_exemplaires = nb_exemplaires - 1 WHERE id = :id');
                 $stmtUpdate->bindValue(':id', $outil_id, \PDO::PARAM_INT);
                 $stmtUpdate->execute();
             }
 
-            //suppression des entrées du panier pour l'utilisateur
+            //On supprime les entrees du panier
             $stmtDelete = $this->pdo->prepare('DELETE FROM panier WHERE user_id = :user_id');
             $stmtDelete->bindValue(':user_id', $user_id, \PDO::PARAM_STR);
             $stmtDelete->execute();
@@ -91,6 +95,7 @@ class ajoutReservationAction extends AbstractAction {
 
             $response->getBody()->write(json_encode([
                 'message' => 'Panier valide. Reservations ajoutees.',
+                'count' => $countInserted
             ]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
         } catch (\Exception $e) {
