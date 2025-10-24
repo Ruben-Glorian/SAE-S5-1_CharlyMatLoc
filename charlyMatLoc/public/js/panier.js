@@ -35,34 +35,67 @@ function loadPanier() {
         }
         //crée une carte et l'ajoute au panier pour chaque outil du panier
         outils.forEach(outil => {
-            const card = document.createElement('div');
-            card.className = 'card';
+            const id = outil.outil_id ?? '';
+            const outil_existant = panierDiv.querySelector(`.card[data-id="${id}"]`);
+            if(outil_existant){
+                let ul = outil_existant.querySelector('.dates-list');
+                if (!ul) {
+                    ul = document.createElement('ul');
+                    ul.className = 'dates-list';
+                    outil_existant.insertBefore(ul, outil_existant.querySelector('.meta') || null);
+                }
+                const li = document.createElement('li');
+                li.textContent = outil.date_location || '—';
+                ul.appendChild(li);
+                let badge = outil_existant.querySelector('.badge');
+                let count = badge ? parseInt(badge.dataset.count || '1', 10) + 1 : 2;
+                if (!badge) {
+                    badge = document.createElement('div');
+                    badge.className = 'badge';
+                    outil_existant.insertBefore(badge, outil_existant.querySelector('.meta') || null);
+                }
+                badge.dataset.count = String(count);
+                badge.textContent = `${count} réservations`;
+                const tarifDiv = outil_existant.querySelector('.tarif');
+                const unit = parseFloat(outil.tarif) || 0;
+                if (tarifDiv) {
+                    tarifDiv.textContent = `${unit.toFixed(2)} € chacun — Sous‑total : ${(unit * count).toFixed(2)} €`;
+                }
 
-            //img de l'outils
-            const img = document.createElement('img');
-            img.src = outil.image_url;
-            img.alt = outil.nom;
-            card.appendChild(img);
+            }
+            else{
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('data-id', id);
 
-            //nom
-            const name = document.createElement('div');
-            name.className = 'name';
-            name.textContent = outil.nom;
-            card.appendChild(name);
+                //img de l'outils
+                const img = document.createElement('img');
+                img.src = outil.image_url;
+                img.alt = outil.nom;
+                card.appendChild(img);
 
-            //date de location
-            const meta = document.createElement('div');
-            meta.className = 'meta';
-            meta.textContent = `Location le ${outil.date_location}`;
-            card.appendChild(meta);
+                //nom
+                const name = document.createElement('div');
+                name.className = 'name';
+                name.textContent = outil.nom;
+                card.appendChild(name);
 
-            //tarif
-            const tarif = document.createElement('div');
-            tarif.className = 'meta';
-            tarif.textContent = `${outil.tarif} €`;
-            card.appendChild(tarif);
+                //liste de dates si outil réservé plusieurs fois
+                const ul = document.createElement('ul');
+                ul.className = 'dates-list';
+                const li = document.createElement('li');
+                li.textContent = outil.date_location || '—';
+                ul.appendChild(li);
+                card.appendChild(ul);
 
-            panierDiv.appendChild(card);        });
+                //tarif
+                const tarif = document.createElement('div');
+                tarif.className = 'meta tarif';
+                tarif.textContent = `${tarif} €`;
+                card.appendChild(tarif);
+
+                panierDiv.appendChild(card);        }
+            });
         //total du panier
         totalDiv.textContent = `Montant total : ${data.total.toFixed(2)} €`;
         //bouton valider

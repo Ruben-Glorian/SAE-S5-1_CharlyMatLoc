@@ -1,10 +1,8 @@
 <?php
-// PHP
 namespace charlyMatLoc\src\api\actions;
 
 use charlyMatLoc\src\application_core\application\ports\spi\PanierRepositoryInterface;
 use charlyMatLoc\src\application_core\application\ports\spi\ReservationRepositoryInterface;
-use charlyMatLoc\src\infrastructure\repositories\PDOReservationRepository;
 use charlyMatLoc\src\api\providers\JWTManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,10 +45,13 @@ class ajoutReservationAction extends AbstractAction {
             return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
         }
 
-        $panier = $this->panierRepository->listerPanier($user_id);
-        $items = $panier['items'] ?? [];
+        //On recupere les lignes du panier de l'utilisateur depuis la bd
+        $stmt = $this->pdo->prepare('SELECT id, outil_id, date_location FROM panier WHERE user_id = :user_id ORDER BY id');
+        $stmt->bindValue(':user_id', $user_id, \PDO::PARAM_STR);
+        $stmt->execute();
+        $lignes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        if (empty($items)) {
+        if (empty($lignes)) {
             $response->getBody()->write(json_encode(['message' => 'Panier vide, rien a valider']));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
         }
@@ -58,21 +59,31 @@ class ajoutReservationAction extends AbstractAction {
         try {
             $this->pdo->beginTransaction();
 
-            foreach ($items as $item) {
-                $outil_id = isset($item['outil_id']) ? (int)$item['outil_id'] : (int)($item['id'] ?? 0);
-                $date_location = $item['date_location'] ?? null;
-                $this->reservationRepository->ajouterOutil($outil_id, $date_location, $user_id);
-            }
+            $ins = $this->pdo->prepare('INSERT INTO reservations (user_id, outil_id, date_location) VALUES (:user_id, :outil_id, :date_location)');
+            $del = $this->pdo->prepare('DELETE FROM panier WHERE id = :id');
 
-            //suppression des entrées du panier pour l'utilisateur
-            $stmtDelete = $this->pdo->prepare('DELETE FROM panier WHERE user_id = :user_id');
-            $stmtDelete->bindValue(':user_id', $user_id, \PDO::PARAM_STR);
-            $stmtDelete->execute();
+            $countInserted = 0;
+            foreach ($lignes as $ligne) {
+                $panierId = (int)($ligne['id'] ?? 0);
+                $outilId = isset($ligne['outil_id']) ? (int)$ligne['outil_id'] : 0;
+                $dateLocation = $ligne['date_location'] ?? null;
+
+                $ins->bindValue(':user_id', $user_id, \PDO::PARAM_STR);
+                $ins->bindValue(':outil_id', $outilId, \PDO::PARAM_INT);
+                $ins->bindValue(':date_location', $dateLocation);
+                $ins->execute();
+
+                $del->bindValue(':id', $panierId, \PDO::PARAM_INT);
+                $del->execute();
+
+                $countInserted++;
+            }
 
             $this->pdo->commit();
 
             $response->getBody()->write(json_encode([
                 'message' => 'Panier valide. Reservations ajoutees.',
+                'count' => $countInserted
             ]));
             return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
         } catch (\Exception $e) {
