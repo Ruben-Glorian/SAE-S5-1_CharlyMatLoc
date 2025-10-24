@@ -22,6 +22,7 @@ class PDOPanierRepository implements PanierRepositoryInterface{
         $stmt->execute();
         $items = [];
         $total = 0.0;
+        //parcours les résultats et construit le tableau des items
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $items[] = [
                 'id' => $row['id'],
@@ -34,11 +35,13 @@ class PDOPanierRepository implements PanierRepositoryInterface{
             ];
             $total += (float)$row['tarif'];
         }
+        //retourne le panier et le total
         return [
             'items' => $items,
             'total' => $total
         ];
     }
+
     public function ajouterOutil(int $idOutil, string $date, string $userId): void{
         $sql = "INSERT INTO panier (outil_id, user_id, date_location, date_ajout) VALUES (:outil_id, :user_id, :date_location, NOW())";
         $stmt = $this->pdo->prepare($sql);
@@ -47,6 +50,8 @@ class PDOPanierRepository implements PanierRepositoryInterface{
         $stmt->bindParam(':date_location', $date, \PDO::PARAM_STR);
         $stmt->execute();
     }
+
+    //cas des doublons
     public function verifDoublons(int $idOutil, string $date, string $userId): bool {
         $panier = $this->listerPanier($userId);
         foreach ($panier['items'] as $item) {
@@ -55,5 +60,10 @@ class PDOPanierRepository implements PanierRepositoryInterface{
             }
         }
         return false;
+    }
+
+    //retourne l'objet pdo
+    public function getPDO(): \PDO {
+        return $this->pdo;
     }
 }
